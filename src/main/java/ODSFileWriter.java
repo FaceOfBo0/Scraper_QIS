@@ -7,9 +7,8 @@ import java.net.URL;
 public class ODSFileWriter {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello world");
         testRun();
-    };
+    }
 
     public static void testRun() throws IOException {
         OdsFactory factory;
