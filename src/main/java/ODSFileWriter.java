@@ -20,12 +20,8 @@ public class ODSFileWriter {
         TableCell cell = row.getOrCreateCell(0);
         cell.setStringValue("Halle Wellt!");
         URL url = new URL("https://www.uni-frankfurt.de");
-
         cell.setText(Text.builder().par().span("Before ").link("link Text", url).build());
         odsWriter.saveAs(new File("src/main/resources/test.ods"));
-
-
-
 
     }
 }
