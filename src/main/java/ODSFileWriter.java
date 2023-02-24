@@ -2,25 +2,28 @@ import com.github.jferard.fastods.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 public class ODSFileWriter {
 
-    public static void main(String[] args) throws IOException {
-        testRun();
-    }
+    public void ODSFileWriter(){
 
-    public static void testRun() throws IOException {
+    }
+    public void createTable() throws IOException {
         OdsFactory factory;
         factory = OdsFactory.create();
         AnonymousOdsFileWriter odsWriter = factory.createWriter();
         OdsDocument document = odsWriter.document();
         Table table = document.addTable("Wochenplan");
-        TableRowImpl row = table.getRow(0);
-        TableCell cell = row.getOrCreateCell(0);
-        cell.setStringValue("Halle Wellt!");
-        URL url = new URL("https://www.uni-frankfurt.de");
-        cell.setText(Text.builder().par().span("Before ").link("link Text", url).build());
+        TableCellWalker cellWalker = table.getWalker();
+        for (int r = 0; r < 10;r++){
+            for (int c = 0; c<9; c++){
+                cellWalker.setStringValue((char) (c + 'A') + String.valueOf(r + 1));
+                cellWalker.next();
+            }
+            cellWalker.nextRow();
+        }
+//        URL url = new URL("https://www.uni-frankfurt.de");
+//        cell.setText(Text.builder().par().span("Before ").link("link Text", url).build());
         odsWriter.saveAs(new File("src/main/resources/test.ods"));
 
     }
