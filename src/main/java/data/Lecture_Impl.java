@@ -1,5 +1,5 @@
 package data;
-
+import org.jsoup.nodes.Document;
 import java.util.List;
 
 public class Lecture_Impl implements Lecture{
@@ -45,7 +45,22 @@ public class Lecture_Impl implements Lecture{
     }
 
     @Override
+    public void setModulesList(List<String> modules) {
+
+    }
+
+    @Override
     public List<String> getModulesList() {
+        return null;
+    }
+
+    @Override
+    public void setDocument(Document doc) {
+
+    }
+
+    @Override
+    public Document getDocument() {
         return null;
     }
 }

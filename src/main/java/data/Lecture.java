@@ -1,5 +1,7 @@
 package data;
 
+import org.jsoup.nodes.Document;
+
 import java.util.List;
 
 public interface Lecture {
@@ -11,6 +13,9 @@ public interface Lecture {
     String getTime();
     void setName(String name);
     String getName();
+    void setModulesList(List<String> modules);
     List<String> getModulesList();
+    void setDocument(Document doc);
+    Document getDocument();
 
 }
