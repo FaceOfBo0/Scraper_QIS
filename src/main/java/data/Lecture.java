@@ -7,15 +7,17 @@ import java.util.List;
 public interface Lecture {
     void setDay(String day);
     String getDay();
-    void setLecturer(String lecturer);
-    List<String> getLecturers();
+    void setLecturersList(List<String> lecturers);
+    void addLecturer(String lecturer);
+    List<String> getLecturersList();
     void setTime(String time);
     String getTime();
-    void setName(String name);
-    String getName();
+    void setTitle(String title);
+    String getTitle();
     void setModulesList(List<String> modules);
+    void addModule(String module);
     List<String> getModulesList();
-    void setDocument(Document doc);
-    Document getDocument();
+    void setText(String text);
+    String getText();
 
 }
