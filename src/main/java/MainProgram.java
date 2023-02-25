@@ -12,8 +12,23 @@ public class MainProgram {
         //odsWriter.createTable();
         QISParser parser = new QISParser("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
         List<String> linksList = parser.getLecturesLinksList();
-        Lecture lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(linksList.get(0)));
+        Lecture lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(linksList.get(9)));
+        System.out.println(lectureTest.getText());
         System.out.println(lectureTest.getDay());
         System.out.println(lectureTest.getTime());
+        System.out.println(lectureTest.getTitle());
+
+//        linksList.forEach(elem -> {
+//            Lecture lectureTest = null;
+//            try {
+//                lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(elem));
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            System.out.println(lectureTest.getText());
+//            System.out.println(lectureTest.getDay());
+//            System.out.println(lectureTest.getTime());
+//        });
+
     }
 }

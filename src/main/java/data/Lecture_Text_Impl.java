@@ -16,17 +16,16 @@ public class Lecture_Text_Impl implements Lecture{
     Pattern timePattern;
     private String title;
     Pattern titlePattern;
-    Pattern namePattern;
     private List<String> modulesList;
     Pattern modulePattern;
     private String text;
 
     public Lecture_Text_Impl(String lectureText){
-        this.day = "n.a.";
+        this.day = "";
         this.dayPattern = Pattern.compile("([A-Z][a-z])\\.\\s\\d+:\\d+");
-        this.time = "n.a.";
+        this.time = "";
         this.timePattern = Pattern.compile("\\d+:\\d+");
-        this.title = "n.a.";
+        this.title = "";
         this.modulesList = new ArrayList<>(0);
         this.lecturersList = new ArrayList<>(0);
         this.text = lectureText;
@@ -39,9 +38,10 @@ public class Lecture_Text_Impl implements Lecture{
 
     @Override
     public String getDay() {
-        if (Objects.equals(this.day, "n.a.")) {
+        if (Objects.equals(this.day, "")) {
             Matcher dayMatcher = this.dayPattern.matcher(this.text);
             if (dayMatcher.find()) this.day = dayMatcher.group(1);
+            else this.day = "n.a.";
         }
         return this.day;
     }
@@ -68,15 +68,16 @@ public class Lecture_Text_Impl implements Lecture{
 
     @Override
     public String getTime() {
-        if (Objects.equals(this.time, "n.a.")) {
+        if (Objects.equals(this.time, "")) {
             List<String> resultList = new ArrayList<>(0);
             Matcher timeMatcher = this.timePattern.matcher(this.text);
             while (timeMatcher.find()){
                 resultList.add(timeMatcher.group(0));
             }
-            if (resultList.size()==2)
+            if (resultList.size()>=2)
                 this.time = resultList.get(0).substring(0,resultList.get(0).length()-3) + "-"
                     + resultList.get(1).substring(0,resultList.get(1).length()-3);
+            else this.time = "n.a.";
         }
         return this.time;
     }
