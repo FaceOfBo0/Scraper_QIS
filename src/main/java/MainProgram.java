@@ -12,23 +12,31 @@ public class MainProgram {
         //odsWriter.createTable();
         QISParser parser = new QISParser("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
         List<String> linksList = parser.getLecturesLinksList();
-        Lecture lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(linksList.get(9)));
-        System.out.println(lectureTest.getText());
-        System.out.println(lectureTest.getDay());
-        System.out.println(lectureTest.getTime());
-        System.out.println(lectureTest.getTitle());
+//        Lecture lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(linksList.get(10)));
+//        System.out.println(lectureTest.getText());
+//        System.out.println(lectureTest.getTitle());
+//        System.out.println(lectureTest.getDay());
+//        System.out.println(lectureTest.getTime());
+//        System.out.println(lectureTest.getRoom());
+//        System.out.println(lectureTest.getLecturersList());
+//        System.out.println(lectureTest.getModulesList());
 
-//        linksList.forEach(elem -> {
-//            Lecture lectureTest = null;
-//            try {
-//                lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(elem));
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            System.out.println(lectureTest.getText());
-//            System.out.println(lectureTest.getDay());
-//            System.out.println(lectureTest.getTime());
-//        });
+        linksList.forEach(elem -> {
+            Lecture lectureTest = null;
+            try {
+                lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(elem));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            //System.out.println(lectureTest.getText());
+            System.out.println(lectureTest.getTitle());
+            System.out.println(lectureTest.getDay());
+            System.out.println(lectureTest.getTime());
+            System.out.println(lectureTest.getLecturersList());
+            System.out.println(lectureTest.getRoom());
+            System.out.println(lectureTest.getModulesList());
+
+        });
 
     }
 }

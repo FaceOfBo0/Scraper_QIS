@@ -3,10 +3,13 @@ package data;
 import org.jsoup.nodes.Document;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Lecture {
     void setDay(String day);
     String getDay();
+    void setRoom(String room);
+    String getRoom();
     void setLecturersList(List<String> lecturers);
     void addLecturer(String lecturer);
     List<String> getLecturersList();
@@ -14,9 +17,9 @@ public interface Lecture {
     String getTime();
     void setTitle(String title);
     String getTitle();
-    void setModulesList(List<String> modules);
+    void setModulesList(Set<String> modules);
     void addModule(String module);
-    List<String> getModulesList();
+    Set<String> getModulesList();
     void setText(String text);
     String getText();
 
