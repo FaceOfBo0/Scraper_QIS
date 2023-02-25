@@ -19,11 +19,11 @@ public class QISParser {
         this.lecturesTextList = new ArrayList<>(0);
     }
 
-    public static Document getOneLectureDoc(String urlLecture) throws IOException {
+    public Document getOneLectureDoc(String urlLecture) throws IOException {
         return Jsoup.connect(urlLecture).get();
     }
 
-    public static String getOneLectureText(String urlLecture) throws IOException {
+    public String getOneLectureText(String urlLecture) throws IOException {
         Document lectureDoc = Jsoup.connect(urlLecture).get();
         String lectureText = lectureDoc.text();
         lectureText = lectureText.replaceAll("\\t|\\n|\\xa0|\\r","");
