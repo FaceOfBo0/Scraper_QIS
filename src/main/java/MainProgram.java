@@ -32,10 +32,10 @@ public class MainProgram {
             System.out.println(lectureTest.getTitle());
             System.out.println(lectureTest.getDay());
             System.out.println(lectureTest.getTime());
-            System.out.println(lectureTest.getLecturersList());
             System.out.println(lectureTest.getRoom());
+            System.out.println(lectureTest.getLecturersList());
             System.out.println(lectureTest.getModulesList());
-
+            System.out.println("-------------------");
         });
 
     }

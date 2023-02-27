@@ -15,8 +15,8 @@ public class Lecture_Text_Impl implements Lecture{
     private String title;
     private final Pattern titlePattern;
     private Set<String> modulesList;
-    private Pattern modulesPattern;
-    private String text;
+    private final Pattern modulesPattern;
+    private final String text;
     private String room;
     private final Pattern roomPattern;
 
@@ -32,13 +32,8 @@ public class Lecture_Text_Impl implements Lecture{
         this.modulesList = new HashSet<>(0);
         this.modulesPattern = Pattern.compile("BM 1|BM 2|BM 3|AM 1|AM 2|AM 3|AM 4|AM 5|VM 1|VM 2|VM 3|GM 1|GM 2|GM 3");
         this.lecturersList = new ArrayList<>(0);
-        this.lecturersPattern = Pattern.compile("Zuständigkeit(.+?)Stud");
+        this.lecturersPattern = Pattern.compile("Zuständigkeit (.+?) Studiengänge Abschluss");
         this.text = lectureText;
-    }
-
-    @Override
-    public void setDay(String day) {
-        this.day = day;
     }
 
     @Override
@@ -52,11 +47,6 @@ public class Lecture_Text_Impl implements Lecture{
     }
 
     @Override
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
-    @Override
     public String getRoom() {
         if (Objects.equals(this.room, "")) {
             Matcher dayMatcher = this.roomPattern.matcher(this.text);
@@ -67,23 +57,19 @@ public class Lecture_Text_Impl implements Lecture{
     }
 
     @Override
-    public void setLecturersList(List<String> lecturers) {
-        this.lecturersList = lecturers;
-    }
-
-    @Override
     public void addLecturer(String lecturer) {
         this.lecturersList.add(lecturer);
     }
 
     @Override
     public List<String> getLecturersList() {
+        if (this.lecturersList.size()==0){
+            Matcher lecturerMatcher = this.lecturersPattern.matcher(this.text);
+            while(lecturerMatcher.find()){
+                this.addLecturer(lecturerMatcher.group(1));
+            }
+        }
         return this.lecturersList;
-    }
-
-    @Override
-    public void setTime(String time) {
-        this.time = time;
     }
 
     @Override
@@ -103,11 +89,6 @@ public class Lecture_Text_Impl implements Lecture{
     }
 
     @Override
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Override
     public String getTitle() {
         if (Objects.equals(this.title, "")) {
             Matcher titleMatcher = this.titlePattern.matcher(this.text);
@@ -118,14 +99,10 @@ public class Lecture_Text_Impl implements Lecture{
     }
 
     @Override
-    public void setModulesList(Set<String> modules) {
-        this.modulesList = modules;
-    }
-    @Override
     public void addModule(String module){ this.modulesList.add(module); }
+
     @Override
     public Set<String> getModulesList() {
-
         if (this.modulesList.size()==0){
             Matcher moduleMatcher = this.modulesPattern.matcher(this.text);
             while(moduleMatcher.find()){
@@ -133,10 +110,6 @@ public class Lecture_Text_Impl implements Lecture{
             }
         }
         return this.modulesList;
-    }
-    @Override
-    public void setText(String text) {
-        this.text = text;
     }
 
     @Override
