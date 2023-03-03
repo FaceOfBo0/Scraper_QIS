@@ -21,7 +21,7 @@ public class Lecture_Text_Impl implements Lecture{
     private final Pattern roomPattern;
     private String link;
 
-    public Lecture_Text_Impl(String lectureText){
+    public Lecture_Text_Impl(String lectureText) {
         this.day = "";
         this.dayPattern = Pattern.compile("([A-Z][a-z])\\.\\s\\d+:\\d+");
         this.time = "";
