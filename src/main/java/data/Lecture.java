@@ -1,7 +1,5 @@
 package data;
 
-import org.jsoup.nodes.Document;
-
 import java.util.List;
 import java.util.Set;
 
@@ -19,8 +17,10 @@ public interface Lecture {
     String getTitle();
     //void setModulesList(Set<String> modules);
     void addModule(String module);
-    Set<String> getModulesList();
+    Set<String> getModulesSet();
     //void setText(String text);
     String getText();
+    String getLink();
+    void setLink(String urlLink);
 
 }

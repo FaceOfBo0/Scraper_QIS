@@ -19,6 +19,7 @@ public class Lecture_Text_Impl implements Lecture{
     private final String text;
     private String room;
     private final Pattern roomPattern;
+    private String link;
 
     public Lecture_Text_Impl(String lectureText){
         this.day = "";
@@ -32,7 +33,7 @@ public class Lecture_Text_Impl implements Lecture{
         this.modulesList = new HashSet<>(0);
         this.modulesPattern = Pattern.compile("BM 1|BM 2|BM 3|AM 1|AM 2|AM 3|AM 4|AM 5|VM 1|VM 2|VM 3|GM 1|GM 2|GM 3");
         this.lecturersList = new ArrayList<>(0);
-        this.lecturersPattern = Pattern.compile("Zuständigkeit (.+?) Studiengänge Abschluss");
+        this.lecturersPattern = Pattern.compile("Zuständigkeit\\s(.+?)\\s(Studiengänge\\sAbschluss|Zuordnung\\szu)+");
         this.text = lectureText;
     }
 
@@ -65,8 +66,19 @@ public class Lecture_Text_Impl implements Lecture{
     public List<String> getLecturersList() {
         if (this.lecturersList.size()==0){
             Matcher lecturerMatcher = this.lecturersPattern.matcher(this.text);
-            while(lecturerMatcher.find()){
-                this.addLecturer(lecturerMatcher.group(1));
+            String lecturersRaw = "";
+            if (lecturerMatcher.find()){
+                lecturersRaw = lecturerMatcher.group(1);
+            }
+            String[] lecturersRawArray = lecturersRaw.split(", ");
+            if (lecturersRawArray.length != 0) {
+                this.addLecturer(lecturersRawArray[0]);
+                if (lecturersRawArray.length > 3) {
+                    String secondLecturerRaw = lecturersRawArray[2];
+                    String[] secondLecturerList = secondLecturerRaw.split(" ");
+                    String scndLecturerFinal = secondLecturerList[secondLecturerList.length - 1];
+                    this.addLecturer(scndLecturerFinal);
+                }
             }
         }
         return this.lecturersList;
@@ -102,7 +114,7 @@ public class Lecture_Text_Impl implements Lecture{
     public void addModule(String module){ this.modulesList.add(module); }
 
     @Override
-    public Set<String> getModulesList() {
+    public Set<String> getModulesSet() {
         if (this.modulesList.size()==0){
             Matcher moduleMatcher = this.modulesPattern.matcher(this.text);
             while(moduleMatcher.find()){
@@ -115,5 +127,15 @@ public class Lecture_Text_Impl implements Lecture{
     @Override
     public String getText() {
         return this.text;
+    }
+
+    @Override
+    public String getLink() {
+        return this.link;
+    }
+
+    @Override
+    public void setLink(String urlLink) {
+        this.link = urlLink;
     }
 }

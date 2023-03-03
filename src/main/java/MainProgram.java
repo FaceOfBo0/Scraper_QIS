@@ -12,14 +12,14 @@ public class MainProgram {
         //odsWriter.createTable();
         QISParser parser = new QISParser("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
         List<String> linksList = parser.getLecturesLinksList();
-//        Lecture lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(linksList.get(10)));
-//        System.out.println(lectureTest.getText());
-//        System.out.println(lectureTest.getTitle());
-//        System.out.println(lectureTest.getDay());
-//        System.out.println(lectureTest.getTime());
-//        System.out.println(lectureTest.getRoom());
-//        System.out.println(lectureTest.getLecturersList());
-//        System.out.println(lectureTest.getModulesList());
+        /*Lecture lectureTest = new Lecture_Text_Impl(parser.getOneLectureText(linksList.get(1)));
+        System.out.println(lectureTest.getText());
+        System.out.println(lectureTest.getTitle());
+        System.out.println(lectureTest.getDay());
+        System.out.println(lectureTest.getTime());
+        System.out.println(lectureTest.getRoom());
+        System.out.println(lectureTest.getLecturersList());
+        System.out.println(lectureTest.getModulesSet());*/
 
         linksList.forEach(elem -> {
             Lecture lectureTest = null;
@@ -28,13 +28,15 @@ public class MainProgram {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            //System.out.println(lectureTest.getText());
+            lectureTest.setLink(elem);
+            System.out.println(lectureTest.getText());
             System.out.println(lectureTest.getTitle());
             System.out.println(lectureTest.getDay());
             System.out.println(lectureTest.getTime());
             System.out.println(lectureTest.getRoom());
             System.out.println(lectureTest.getLecturersList());
-            System.out.println(lectureTest.getModulesList());
+            System.out.println(lectureTest.getModulesSet());
+            System.out.println(lectureTest.getLink());
             System.out.println("-------------------");
         });
 
