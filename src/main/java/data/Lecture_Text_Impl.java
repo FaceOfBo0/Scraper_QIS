@@ -138,4 +138,9 @@ public class Lecture_Text_Impl implements Lecture{
     public void setLink(String urlLink) {
         this.link = urlLink;
     }
+
+    @Override
+    public String toString(){
+        return this.getTitle();
+    }
 }

@@ -10,8 +10,8 @@ public class MainProgram {
         //ODSFileWriter odsWriter = new ODSFileWriter();
         //odsWriter.createTable();
         QISParser qisParser = new QISParser("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
-        List<Lecture> lecturers = qisParser.getLectures();
-        System.out.println(lecturers);
+        List<Lecture> lectures = qisParser.getLectures();
+
 //        linksList.forEach(elem -> {
 //            Lecture lectureTest;
 //            lectureTest = new Lecture_Text_Impl(qisParser.getOneLectureText(elem));
