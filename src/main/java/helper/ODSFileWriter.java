@@ -16,10 +16,10 @@ AnonymousOdsFileWriter fileWriter;
         this.document = this.fileWriter.document();
     }
 
-    public void createTable() {
-        Table table = null;
+    public void createTable(String pTableName) {
+        Table table;
         try {
-            table = this.document.addTable("Wochenplan");
+            table = this.document.addTable(pTableName);
             TableCellWalker cellWalker = table.getWalker();
             for (int r = 0; r < 10;r++){
                 for (int c = 0; c<9; c++){

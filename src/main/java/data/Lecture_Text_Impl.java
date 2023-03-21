@@ -9,7 +9,7 @@ public class Lecture_Text_Impl implements Lecture{
     private String day;
     private final Pattern dayPattern;
     private List<String> lecturersList;
-    private Pattern lecturersPattern;
+    private final Pattern lecturersPattern;
     private String time;
     private final Pattern timePattern;
     private String title;
@@ -125,7 +125,7 @@ public class Lecture_Text_Impl implements Lecture{
     }
 
     @Override
-    public String getText() {
+    public String getTextRaw() {
         return this.text;
     }
 

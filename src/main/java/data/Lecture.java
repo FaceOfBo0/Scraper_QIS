@@ -19,7 +19,7 @@ public interface Lecture {
     void addModule(String module);
     Set<String> getModulesSet();
     //void setText(String text);
-    String getText();
+    String getTextRaw();
     String getLink();
     void setLink(String urlLink);
 
