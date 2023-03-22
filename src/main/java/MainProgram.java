@@ -11,20 +11,21 @@ public class MainProgram {
         //ODSFileWriter odsWriter = new ODSFileWriter();
         //odsWriter.createTable();
         LectureFactory lectureFactory = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
-        List<Lecture> lectures = lectureFactory.getLectures();
-
-
-        lectures.forEach(elem -> {
-            System.out.println(elem.getTextRaw());
-            System.out.println(elem.getTitle());
-            System.out.println(elem.getDay());
-            System.out.println(elem.getTime());
-            System.out.println(elem.getRoom());
-            System.out.println(elem.getLecturersList());
-            System.out.println(elem.getModulesSet());
-            System.out.println(elem.getLink());
-            System.out.println("-------------------");
-        });
+        lectureFactory.createSheetFromLectures();
+//        List<Lecture> lectures = lectureFactory.getLectures();
+//
+//
+//        lectures.forEach(elem -> {
+//            System.out.println(elem.getTextRaw());
+//            System.out.println(elem.getTitle());
+//            System.out.println(elem.getDay());
+//            System.out.println(elem.getTime());
+//            System.out.println(elem.getRoom());
+//            System.out.println(elem.getLecturersList());
+//            System.out.println(elem.getModulesSet());
+//            System.out.println(elem.getLink());
+//            System.out.println("-------------------");
+//        });
 
     }
 }
