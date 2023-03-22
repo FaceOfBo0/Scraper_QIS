@@ -14,7 +14,6 @@ public class QISParser {
     private Document lecturesDoc;
     private List<String> lecturesLinks;
     private List<String> lecturesText;
-    private List<Lecture> lectures;
 
     public QISParser(String urlName) {
         try {
@@ -22,18 +21,17 @@ public class QISParser {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.lectures = new ArrayList<>(0);
         this.lecturesLinks = new ArrayList<>(0);
         this.lecturesText = new ArrayList<>(0);
     }
 
-    public Document getOneLectureDoc(String urlLecture) {
-        try {
-            return Jsoup.connect(urlLecture).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public Document getOneLectureDoc(String urlLecture) {
+//        try {
+//            return Jsoup.connect(urlLecture).get();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public String getOneLectureText(String urlLecture) {
         Document lectureDoc;
@@ -55,25 +53,18 @@ public class QISParser {
         return this.lecturesLinks;
     }
 
-    public List<Lecture> getLectures() {
-        if (this.lectures.size()==0) {
-            this.getLecturesText().forEach(elem -> this.lectures.add(new Lecture_Text_Impl(elem)));
-        }
-        return this.lectures;
-    }
+//    public List<String> getLecturesText() {
+//        if (this.lecturesText.size()==0){
+//            this.getLecturesLinks().forEach(elem -> {
+//                this.lecturesText.add(this.getOneLectureText(elem));
+//            });
+//        }
+//        return this.lecturesText;
+//    }
 
-    public List<String> getLecturesText() {
-        if (this.lecturesText.size()==0){
-            this.getLecturesLinks().forEach(elem -> {
-                this.lecturesText.add(this.getOneLectureText(elem));
-            });
-        }
-        return this.lecturesText;
-    }
-
-    public Document getLecturesDoc(){
-        return this.lecturesDoc;
-    }
+//    public Document getLecturesDoc(){
+//        return this.lecturesDoc;
+//    }
 
 
 }
