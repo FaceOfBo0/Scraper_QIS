@@ -1,6 +1,9 @@
 package helper;
 
 import com.github.jferard.fastods.*;
+import com.github.jferard.fastods.style.TableCellStyle;
+import com.github.jferard.fastods.style.TableRowStyle;
+import com.github.jferard.fastods.style.TextStyle;
 
 import java.io.File;
 import java.io.IOException;

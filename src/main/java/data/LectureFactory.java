@@ -2,8 +2,13 @@ package data;
 
 import com.github.jferard.fastods.*;
 import com.github.jferard.fastods.attribute.SimpleLength;
+import com.github.jferard.fastods.odselement.Settings;
+import com.github.jferard.fastods.odselement.SettingsElement;
+import com.github.jferard.fastods.odselement.config.ConfigElement;
+import com.github.jferard.fastods.odselement.config.ConfigItem;
 import com.github.jferard.fastods.style.TableCellStyle;
 import com.github.jferard.fastods.style.TableColumnStyle;
+import helper.DayComparator;
 import helper.ODSFileWriter;
 import helper.QISParser;
 
@@ -46,21 +51,47 @@ public class LectureFactory {
         return this.lectures;
     }
 
-    public void createSheetFromLectures(){
+    public void createODSFileFromLectures(String pFileName, boolean pLinkFlag){
 
         try {
             this.createTitleRow(Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
                     "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3"));
-            for (int i = 0; i<17;i++) {
-                TableColumnStyle columnStyle = TableColumnStyle.builder("column").columnWidth(SimpleLength.cm(2)).build();
-                this.table.setColumnStyle(i,columnStyle);
-            }
+//            TableColumnStyle columnStyle = TableColumnStyle.builder("column").columnWidth(SimpleLength.cm(1.5)).build();
+//            for (int i = 0; i<17;i++) {
+//                this.table.setColumnStyle(i,columnStyle);
+//            }
             this.lectures = this.getLectures();
+            this.lectures.sort(new DayComparator());
+
             for (int i = 0; i < this.lectures.size(); i++){
                 TableRowImpl row = this.table.getRow(i+1);
                 row.getOrCreateCell(0).setStringValue(this.lectures.get(i).getDay());
                 row.getOrCreateCell(1).setStringValue(this.lectures.get(i).getTime());
-                row.getOrCreateCell(2).setStringValue(this.lectures.get(i).getTitle());
+                if(!pLinkFlag)
+                    row.getOrCreateCell(2).setStringValue(this.lectures.get(i).getTitle());
+                else {
+                    String titleRaw = this.lectures.get(i).getTitle();
+                    if (titleRaw.length() > 30) {
+                        List<String> splitTitle = new ArrayList<>(Arrays.asList(titleRaw.split(" ")));
+                        List<String> splitTitleLink = new ArrayList<>(0);
+                        String titleLink;
+                        String titleRest;
+
+                        if (splitTitle.contains("Forschungskolloquium"))
+                            splitTitleLink.add(splitTitle.remove(0));
+                        else {
+                            splitTitleLink.add(splitTitle.remove(0));
+                            splitTitleLink.add(splitTitle.remove(0));
+                        }
+
+                        titleLink = String.join(" ",splitTitleLink);
+                        titleRest = String.join(" ",splitTitle);
+                        row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" "+titleRest).build());;
+                    }
+                    else row.getOrCreateCell(2).setText(Text.builder().par().link(this.lectures.get(i).getTitle(),this.lectures.get(i).getLink()).build());
+
+
+                }
                 String lecturers = "";
                 if (this.lectures.get(i).getLecturersList().size() > 1)
                     lecturers = String.join(", ", this.lectures.get(i).getLecturersList());
@@ -93,7 +124,7 @@ public class LectureFactory {
                 if (this.lectures.get(i).getModulesSet().contains("GM 3"))
                     row.getOrCreateCell(16).setStringValue("x");
             }
-            this.fileWriter.saveDocAsODS("results.ods");
+            this.fileWriter.saveDocAsODS(pFileName);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
