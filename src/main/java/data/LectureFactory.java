@@ -86,10 +86,9 @@ public class LectureFactory {
 
                         titleLink = String.join(" ",splitTitleLink);
                         titleRest = String.join(" ",splitTitle);
-                        row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" "+titleRest).build());;
+                        row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" " + titleRest).build());;
                     }
                     else row.getOrCreateCell(2).setText(Text.builder().par().link(this.lectures.get(i).getTitle(),this.lectures.get(i).getLink()).build());
-
 
                 }
                 String lecturers = "";
