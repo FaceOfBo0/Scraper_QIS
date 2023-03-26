@@ -2,12 +2,7 @@ package data;
 
 import com.github.jferard.fastods.*;
 import com.github.jferard.fastods.attribute.SimpleLength;
-import com.github.jferard.fastods.odselement.Settings;
-import com.github.jferard.fastods.odselement.SettingsElement;
-import com.github.jferard.fastods.odselement.config.ConfigElement;
-import com.github.jferard.fastods.odselement.config.ConfigItem;
-import com.github.jferard.fastods.style.TableCellStyle;
-import com.github.jferard.fastods.style.TableColumnStyle;
+import com.github.jferard.fastods.style.*;
 import helper.DayComparator;
 import helper.ODSFileWriter;
 import helper.QISParser;
@@ -56,17 +51,25 @@ public class LectureFactory {
         try {
             this.createTitleRow(Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
                     "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3"));
-//            TableColumnStyle columnStyle = TableColumnStyle.builder("column").columnWidth(SimpleLength.cm(1.5)).build();
-//            for (int i = 0; i<17;i++) {
-//                this.table.setColumnStyle(i,columnStyle);
-//            }
+            // defining different stylings for sheet
+            TableColumnStyle columnStyleModules = TableColumnStyle.builder("column-modules").columnWidth(SimpleLength.in(0.4)).build();
+            TableCellStyle wrapedCellStyle = TableCellStyle.builder("cell-wraped").fontWrap(true).build();
+            TableColumnStyle columnStyleDefault = TableColumnStyle.builder("column-default").build();
+            TableRowStyle rowStyleDefault = TableRowStyle.builder("row-default").rowHeight(SimpleLength.in(0.4)).build();
+            for (int i = 0; i<17;i++) {
+                if (i>4)
+                    this.table.setColumnStyle(i,columnStyleModules);
+                else this.table.setColumnStyle(i,columnStyleDefault);
+            }
             this.lectures = this.getLectures();
             this.lectures.sort(new DayComparator());
 
             for (int i = 0; i < this.lectures.size(); i++){
                 TableRowImpl row = this.table.getRow(i+1);
+                row.setRowStyle(rowStyleDefault);
                 row.getOrCreateCell(0).setStringValue(this.lectures.get(i).getDay());
                 row.getOrCreateCell(1).setStringValue(this.lectures.get(i).getTime());
+
                 if(!pLinkFlag)
                     row.getOrCreateCell(2).setStringValue(this.lectures.get(i).getTitle());
                 else {
@@ -89,14 +92,17 @@ public class LectureFactory {
                         row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" " + titleRest).build());;
                     }
                     else row.getOrCreateCell(2).setText(Text.builder().par().link(this.lectures.get(i).getTitle(),this.lectures.get(i).getLink()).build());
-
                 }
+                row.getOrCreateCell(2).setStyle(wrapedCellStyle);
+
                 String lecturers = "";
                 if (this.lectures.get(i).getLecturersList().size() > 1)
                     lecturers = String.join(", ", this.lectures.get(i).getLecturersList());
                 else if (this.lectures.get(i).getLecturersList().size() == 1)
                     lecturers = this.lectures.get(i).getLecturersList().get(0);
                 row.getOrCreateCell(3).setStringValue(lecturers);
+                row.getOrCreateCell(3).setStyle(wrapedCellStyle);
+
                 row.getOrCreateCell(4).setStringValue(this.lectures.get(i).getRoom());
                 if (this.lectures.get(i).getModulesSet().contains("BM 1"))
                     row.getOrCreateCell(5).setStringValue("x");
