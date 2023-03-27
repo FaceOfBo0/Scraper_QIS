@@ -50,12 +50,12 @@ public class LectureFactory {
 
         try {
             this.createTitleRow(Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
-                    "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3"));
+                    "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT\\n Link"));
             // defining different stylings for sheet
             TableColumnStyle columnStyleModules = TableColumnStyle.builder("column-modules").columnWidth(SimpleLength.in(0.4)).build();
             TableCellStyle wrapedCellStyle = TableCellStyle.builder("cell-wraped").fontWrap(true).build();
             TableColumnStyle columnStyleDefault = TableColumnStyle.builder("column-default").build();
-            TableRowStyle rowStyleDefault = TableRowStyle.builder("row-default").rowHeight(SimpleLength.in(0.4)).build();
+            TableRowStyle rowStyleDouble = TableRowStyle.builder("row-default").rowHeight(SimpleLength.in(0.5)).build();
             for (int i = 0; i<17;i++) {
                 if (i>4)
                     this.table.setColumnStyle(i,columnStyleModules);
@@ -66,7 +66,7 @@ public class LectureFactory {
 
             for (int i = 0; i < this.lectures.size(); i++){
                 TableRowImpl row = this.table.getRow(i+1);
-                row.setRowStyle(rowStyleDefault);
+                row.setRowStyle(rowStyleDouble);
                 row.getOrCreateCell(0).setStringValue(this.lectures.get(i).getDay());
                 row.getOrCreateCell(1).setStringValue(this.lectures.get(i).getTime());
 
