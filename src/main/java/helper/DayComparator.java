@@ -1,8 +1,6 @@
 package helper;
 
 import data.Lecture;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DayComparator implements Comparator<Lecture> {
@@ -13,12 +11,16 @@ public class DayComparator implements Comparator<Lecture> {
             Arrays.asList("Mi", "Do"),Arrays.asList("Mi", "Fr"),Arrays.asList("Do", "Fr")));
 
     private boolean lessDay (Lecture o1, Lecture o2){
-        if (Objects.equals(o1.getDay(), "Block")) return false;
-        else if (Objects.equals(o2.getDay(), "Block")) return true;
+        if (Objects.equals(o1.getDay(), "Block") || Objects.equals(o1.getDay(), "n.a.")) return false;
+        else if (Objects.equals(o2.getDay(), "Block") || Objects.equals(o2.getDay(), "n.a.")) return true;
         else {
             List<String> dayTuple = new ArrayList<>(0);
             dayTuple.add(o1.getDay());
+            System.out.println("o1 day: " + o1.getDay());
+            System.out.println("o1 title: " + o1.getTitle());
             dayTuple.add(o2.getDay());
+            System.out.println("o2 day: " + o2.getDay());
+            System.out.println("o2 title: " + o2.getTitle());
             return this.lessDaySet.contains(dayTuple);
         }
     }
