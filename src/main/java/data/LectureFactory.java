@@ -21,7 +21,7 @@ public class LectureFactory {
     public LectureFactory(String pURL, String pSemester) {
         this.semester = pSemester;
         String urlOffset = "";
-        if (!Objects.equals(this.semester, "default")&&this.semester.length()==6) {
+        if (!Objects.equals(this.semester, "default") && this.semester.length()==6) {
             String year = this.semester.split("\\.")[0];
             String half = this.semester.split("\\.")[1];
             if (Objects.equals(half, "1")) {
