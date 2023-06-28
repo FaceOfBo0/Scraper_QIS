@@ -1,7 +1,5 @@
 package helper;
 
-import data.Lecture;
-import data.Lecture_Text_Impl;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -9,11 +7,12 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class QISParser {
     private Document lecturesDoc;
     private List<String> lecturesLinks;
-    private List<String> lecturesText;
+    private List<String> lecturesTexts;
     private String urlOffset;
 
     public QISParser(String pUrlName, String pUrlOffset) {
@@ -23,7 +22,7 @@ public class QISParser {
             throw new RuntimeException(e);
         }
         this.lecturesLinks = new ArrayList<>(0);
-        this.lecturesText = new ArrayList<>(0);
+        this.lecturesTexts = new ArrayList<>(0);
         this.urlOffset = pUrlOffset;
     }
 
@@ -36,6 +35,8 @@ public class QISParser {
 //    }
 
     public String getOneLectureText(String urlLecture) {
+        if (!Objects.equals(this.urlOffset, ""))
+            urlLecture += this.urlOffset;
         Document lectureDoc;
         try {
             lectureDoc = Jsoup.connect(urlLecture).get();
@@ -50,23 +51,27 @@ public class QISParser {
     public List<String> getLecturesLinks() {
         if (this.lecturesLinks.size()==0){
             Elements linksElements = this.lecturesDoc.select("td > a[href]");
-            linksElements.forEach(elem -> this.lecturesLinks.add(elem.attr("href")));
+            linksElements.forEach(elem -> {
+                if (!Objects.equals(this.urlOffset, ""))
+                    this.lecturesLinks.add(elem.attr("href") + this.urlOffset);
+                else this.lecturesLinks.add(elem.attr("href"));
+            });
         }
         return this.lecturesLinks;
     }
 
-//    public List<String> getLecturesText() {
-//        if (this.lecturesText.size()==0){
-//            this.getLecturesLinks().forEach(elem -> {
-//                this.lecturesText.add(this.getOneLectureText(elem));
-//            });
-//        }
-//        return this.lecturesText;
-//    }
+    public List<String> getLecturesTexts() {
+        if (this.lecturesTexts.size()==0){
+            this.getLecturesLinks().forEach(elem -> {
+                this.lecturesTexts.add(this.getOneLectureText(elem));
+            });
+        }
+        return this.lecturesTexts;
+    }
 
-//    public Document getLecturesDoc(){
-//        return this.lecturesDoc;
-//    }
+    public Document getLecturesDoc(){
+        return this.lecturesDoc;
+    }
 
 
 }
