@@ -1,11 +1,16 @@
 import data.LectureFactory;
 
+import java.util.List;
+
 public class MainProgram {
 
     public static void main(String[] args) {
 
-        LectureFactory lectureFactory = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100&k_semester.semid=20231&idcol=k_semester.semid&idval=20231&purge=n&getglobal=semester&text=Sommer+2023");
-        lectureFactory.createODSFileFromLectures("results.ods",true);
+        LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100","2023.2");
+        //List<String> lecturersLinks = lecFac.getQisParser().getLecturesLinks();
+        //String lecText = lecFac.getQisParser().getOneLectureText(lecturersLinks.get(2));
+        //System.out.println(lecText);
+        //lectureFactory.createODSFileFromLectures("results.ods",true);
 
     }
 }

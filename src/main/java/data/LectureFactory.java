@@ -16,11 +16,35 @@ public class LectureFactory {
     private final QISParser qisParser;
     private final ODSFileWriter fileWriter;
     private Table table;
-    public LectureFactory(String pURL){
+    private String semester;
+
+    public LectureFactory(String pURL, String pSemester) {
+        this.semester = pSemester;
+        String urlOffset = "";
+        if (!Objects.equals(this.semester, "default")&&this.semester.length()==6) {
+            String year = this.semester.split("\\.")[0];
+            String half = this.semester.split("\\.")[1];
+            if (Objects.equals(half, "1")) {
+                urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Sommer+" + year;
+                pURL = pURL + urlOffset;
+                System.out.println(pURL);
+            }
+            else if (Objects.equals(half, "2")) {
+                Integer newYearShort = Integer.parseInt(year.substring(2))+1;
+                urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Winter+" + year + "%2F" + newYearShort;
+                pURL = pURL + urlOffset;
+                System.out.println(pURL);
+            }
+
+        }
         this.lectures = new ArrayList<>(0);
-        this.qisParser = new QISParser(pURL);
+        this.qisParser = new QISParser(pURL, urlOffset);
         this.fileWriter = new ODSFileWriter();
         this.table = this.fileWriter.createTable("Wochenplan");
+    }
+
+    public LectureFactory(String pURL){
+        this(pURL, "default");
     }
 
     private void createTitleRow(List<String> rowItems){

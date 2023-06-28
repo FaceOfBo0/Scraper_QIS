@@ -14,15 +14,17 @@ public class QISParser {
     private Document lecturesDoc;
     private List<String> lecturesLinks;
     private List<String> lecturesText;
+    private String urlOffset;
 
-    public QISParser(String urlName) {
+    public QISParser(String pUrlName, String pUrlOffset) {
         try {
-            this.lecturesDoc = Jsoup.connect(urlName).get();
+            this.lecturesDoc = Jsoup.connect(pUrlName).get();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         this.lecturesLinks = new ArrayList<>(0);
         this.lecturesText = new ArrayList<>(0);
+        this.urlOffset = pUrlOffset;
     }
 
 //    public Document getOneLectureDoc(String urlLecture) {

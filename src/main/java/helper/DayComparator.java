@@ -16,11 +16,7 @@ public class DayComparator implements Comparator<Lecture> {
         else {
             List<String> dayTuple = new ArrayList<>(0);
             dayTuple.add(o1.getDay());
-            System.out.println("o1 day: " + o1.getDay());
-            System.out.println("o1 title: " + o1.getTitle());
             dayTuple.add(o2.getDay());
-            System.out.println("o2 day: " + o2.getDay());
-            System.out.println("o2 title: " + o2.getTitle());
             return this.lessDaySet.contains(dayTuple);
         }
     }

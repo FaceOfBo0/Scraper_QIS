@@ -9,8 +9,5 @@
         <module name="Scraper_QIS" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Scraper_QIS" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
