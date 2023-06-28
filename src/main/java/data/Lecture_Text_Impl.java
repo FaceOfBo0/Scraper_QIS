@@ -105,7 +105,10 @@ public class Lecture_Text_Impl implements Lecture{
     public String getTitle() {
         if (Objects.equals(this.title, "")) {
             Matcher titleMatcher = this.titlePattern.matcher(this.textRaw);
-            if (titleMatcher.find()) this.title = titleMatcher.group(1);
+            if (titleMatcher.find()) {
+                this.title = titleMatcher.group(1);
+                this.title = this.title.replace("&","&amp;");
+            }
             else this.title = "n.a.";
         }
         return this.title;
