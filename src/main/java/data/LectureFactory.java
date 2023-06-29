@@ -1,6 +1,7 @@
 package data;
 
 import com.github.jferard.fastods.*;
+import com.github.jferard.fastods.attribute.CellAlign;
 import com.github.jferard.fastods.attribute.SimpleLength;
 import com.github.jferard.fastods.attribute.VerticalAlign;
 import com.github.jferard.fastods.style.*;
@@ -76,20 +77,27 @@ public class LectureFactory {
         try {
             this.createTitleRow(Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
                     "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link"));
-            // defining different stylings for sheet columns
+
+            // defining different stylings for sheet
             TableColumnStyle columnStyleModules = TableColumnStyle.builder("column-modules").columnWidth(SimpleLength.in(0.4)).build();
             TableCellStyle wrapedCellStyle = TableCellStyle.builder("cell-wraped").fontWrap(true).build();
             TableColumnStyle columnStyleDefault = TableColumnStyle.builder("column-default").build();
-            TableRowStyle rowStyleDouble = TableRowStyle.builder("row-default").rowHeight(SimpleLength.in(0.3)).build();
-            TableCellStyle cellStyleModules = TableCellStyle.builder("cell-middle").verticalAlign(VerticalAlign.MIDDLE).build();
-            // applying
+            TableRowStyle rowStyleDouble = TableRowStyle.builder("row-default").rowHeight(SimpleLength.in(0.32)).build();
+            TableCellStyle cellStyleModules = TableCellStyle.builder("cell-middle").verticalAlign(VerticalAlign.MIDDLE).textAlign(CellAlign.CENTER).build();
+
+            // applying different stylings for columns
             for (int i = 0; i < 19; i++) {
-                if (i > 4 && i < 17)
+                if (i > 4 && i < 17) {
                     this.table.setColumnStyle(i,columnStyleModules);
+                    this.table.setColumnDefaultCellStyle(i, cellStyleModules);
+                }
                 else this.table.setColumnStyle(i,columnStyleDefault);
             }
+
+
             this.lectures = this.getLectures();
             this.lectures.sort(new DayComparator());
+
 
             for (int i = 0; i < this.lectures.size(); i++){
                 TableRowImpl row = this.table.getRow(i+1);
