@@ -17,22 +17,20 @@ public class LectureFactory {
     private List<Lecture> lectures;
     private final QISParser qisParser;
     private final ODSFileWriter fileWriter;
-    private Table table;
-    private String semester;
+    private final Table table;
 
     public LectureFactory(String pURL, String pSemester) {
-        this.semester = pSemester;
         String urlOffset = "";
-        if (!Objects.equals(this.semester, "default") && this.semester.length()==6) {
-            String year = this.semester.split("\\.")[0];
-            String half = this.semester.split("\\.")[1];
+        if (!Objects.equals(pSemester, "default") && pSemester.length()==6) {
+            String year = pSemester.split("\\.")[0];
+            String half = pSemester.split("\\.")[1];
             if (Objects.equals(half, "1")) {
                 urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Sommer+" + year;
                 pURL = pURL + urlOffset;
                 System.out.println(pURL);
             }
             else if (Objects.equals(half, "2")) {
-                Integer newYearShort = Integer.parseInt(year.substring(2))+1;
+                int newYearShort = Integer.parseInt(year.substring(2))+1;
                 urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Winter+" + year + "%2F" + newYearShort;
                 pURL = pURL + urlOffset;
                 System.out.println(pURL);
@@ -46,7 +44,7 @@ public class LectureFactory {
     }
 
     public LectureFactory(String pURL){
-        this(pURL, "default");
+       this(pURL, "default");
     }
 
     private void createTitleRow(List<String> rowItems){
@@ -66,9 +64,7 @@ public class LectureFactory {
     }
     public List<Lecture> getLectures(){
         if (this.lectures.size()==0)
-            this.qisParser.getLecturesLinks().forEach(elem -> {
-                this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem));
-            });
+            this.qisParser.getLecturesLinks().forEach(elem -> this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem)));
         return this.lectures;
     }
 
@@ -124,7 +120,7 @@ public class LectureFactory {
 
                         titleLink = String.join(" ",splitTitleLink);
                         titleRest = String.join(" ",splitTitle);
-                        row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" " + titleRest).build());;
+                        row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" " + titleRest).build());
                     }
                     else row.getOrCreateCell(2).setText(Text.builder().par().link(this.lectures.get(i).getTitle(),this.lectures.get(i).getLink()).build());
                 }
@@ -172,11 +168,11 @@ public class LectureFactory {
 
     }
 
-    public ODSFileWriter getFileWriter() {
-        return this.fileWriter;
-    }
-
-    public QISParser getQisParser() {
-        return qisParser;
-    }
+//    public ODSFileWriter getFileWriter() {
+//        return this.fileWriter;
+//    }
+//
+//    public QISParser getQisParser() {
+//        return qisParser;
+//    }
 }

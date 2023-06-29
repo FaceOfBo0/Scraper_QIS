@@ -1,9 +1,6 @@
 package helper;
 
 import com.github.jferard.fastods.*;
-import com.github.jferard.fastods.style.TableCellStyle;
-import com.github.jferard.fastods.style.TableRowStyle;
-import com.github.jferard.fastods.style.TextStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +37,8 @@ AnonymousOdsFileWriter fileWriter;
     }
 
     /**
-     *
-     * @param fileName
+     * Save FileWriter-Object as ODS-File in resources folder
+     * @param fileName name for ods-file
      */
     public void saveDocAsODS(String fileName){
         try {

@@ -8,13 +8,13 @@ public class Lecture_Text_Impl implements Lecture{
 
     private String day;
     private final Pattern dayPattern;
-    private List<String> lecturersList;
+    private final List<String> lecturersList;
     private final Pattern lecturersPattern;
     private String time;
     private final Pattern timePattern;
     private String title;
     private final Pattern titlePattern;
-    private Set<String> modulesList;
+    private final Set<String> modulesList;
     private final Pattern modulesPattern;
     private String textRaw;
     private String room;

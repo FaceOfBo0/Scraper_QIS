@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class QISParser {
-    private Document lecturesDoc;
-    private List<String> lecturesLinks;
-    private List<String> lecturesTexts;
-    private String urlOffset;
+    private final Document lecturesDoc;
+    private final List<String> lecturesLinks;
+
+//    private final List<String> lecturesTexts;
+    private final String urlOffset;
 
     public QISParser(String pUrlName, String pUrlOffset) {
         try {
@@ -22,7 +23,7 @@ public class QISParser {
             throw new RuntimeException(e);
         }
         this.lecturesLinks = new ArrayList<>(0);
-        this.lecturesTexts = new ArrayList<>(0);
+//        this.lecturesTexts = new ArrayList<>(0);
         this.urlOffset = pUrlOffset;
     }
 
@@ -60,18 +61,18 @@ public class QISParser {
         return this.lecturesLinks;
     }
 
-    public List<String> getLecturesTexts() {
-        if (this.lecturesTexts.size()==0){
-            this.getLecturesLinks().forEach(elem -> {
-                this.lecturesTexts.add(this.getOneLectureText(elem));
-            });
-        }
-        return this.lecturesTexts;
-    }
-
-    public Document getLecturesDoc(){
-        return this.lecturesDoc;
-    }
+//    public List<String> getLecturesTexts() {
+//        if (this.lecturesTexts.size()==0){
+//            for (String elem : this.getLecturesLinks()) {
+//                this.lecturesTexts.add(this.getOneLectureText(elem));
+//            }
+//        }
+//        return this.lecturesTexts;
+//    }
+//
+//    public Document getLecturesDoc(){
+//        return this.lecturesDoc;
+//    }
 
 
 }
