@@ -63,8 +63,13 @@ public class LectureFactory {
         }
     }
     public List<Lecture> getLectures(){
-        if (this.lectures.size()==0)
-            this.qisParser.getLecturesLinks().forEach(elem -> this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem)));
+        if (this.lectures.size()==0) {
+//            this.qisParser.getLecturesLinks().forEach(elem -> this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem)));
+            for (int i = 0; i < this.qisParser.getLecturesLinks().size(); i++){
+                this.lectures.add(new Lecture_Text_Impl(this.qisParser.getLecturesTexts().get(i),
+                        this.qisParser.getLecturesLinks().get(i)));
+            }
+        }
         return this.lectures;
     }
 

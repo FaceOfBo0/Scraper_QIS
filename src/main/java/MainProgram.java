@@ -9,6 +9,5 @@ public class MainProgram {
         //String lecText = lecFac.getQisParser().getOneLectureText(lecturersLinks.get(2));
         //System.out.println(lecText);
         lecFac.createODSFileFromLectures("results.ods",true);
-
     }
 }
