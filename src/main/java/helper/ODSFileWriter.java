@@ -41,8 +41,9 @@ AnonymousOdsFileWriter fileWriter;
      * @param fileName name for ods-file
      */
     public void saveDocAsODS(String fileName){
+        // "src/main/resources/"+
         try {
-            this.fileWriter.saveAs(new File ("src/main/resources/"+fileName));
+            this.fileWriter.saveAs(new File (fileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
