@@ -17,12 +17,8 @@ public class WebServer {
 
     public WebServer(int pPort){
         Spark.port(pPort);
-        Spark.staticFileLocation("templates/javascript");
-        Spark.externalStaticFileLocation("templates/javascript");
-//        Spark.staticFiles.location("templates/javascript");
-//        Spark.staticFiles.externalLocation("templates/javascript");
         try {
-            config.setDirectoryForTemplateLoading(new File("templates/"));
+            config.setDirectoryForTemplateLoading(new File("./"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
