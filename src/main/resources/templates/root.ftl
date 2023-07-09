@@ -11,21 +11,23 @@
             margin-bottom: 25px;
         }
         span.spanClass{
-            background-color: lightslategray;
-            color: white;
+            background-color: #33475b;
+            color: whitesmoke;
+            border-color: #33475b;
         }
-        button.btn {
-            background-color: dodgerblue;
+        input.form-control {
+            border-color: #33475b;
+            color: whitesmoke;
+            background-color: #2B2A33;
         }
-        input.form-control { background-color: blanchedalmond; }
     </style>
     <title>LSF Wochenplan Editor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
           crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color: #2B2A33; color: whitesmoke">
     <h1>LSF Wochenplan Editor</h1>
     <hr width="410px">
     <div class="input-group mb-3" id="urlForm">
@@ -40,7 +42,7 @@
         </div>
         <input value="2023.2" type="text" id="semesterInp" class="form-control">
         <div class="buttonForm input-group-append">
-            <button id="loadBtn" class="btn btn-primary">Plan laden</button>
+            <button id="loadBtn" class="btn btn-primary" style="color: whitesmoke">Plan laden</button>
         </div>
     </div>
     <#if loaded == "1">
@@ -54,5 +56,8 @@
             window.location.href = "/?load=1&url=" + urlVal + "&semester="+ semesterVal;
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+            integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+            crossorigin="anonymous"></script>
 </body>
 </html>

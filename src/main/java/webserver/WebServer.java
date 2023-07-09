@@ -3,6 +3,7 @@ package webserver;
 import data.Lecture;
 import data.LectureFactory;
 import freemarker.template.Configuration;
+import helper.DayComparator;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -32,6 +33,7 @@ public class WebServer {
                     if (this.lecturesList.size()==0) {
                         this.factory = new LectureFactory(url, semester);
                         this.lecturesList = this.factory.getLectures();
+                        this.lecturesList.sort(new DayComparator());
                         attributes.put("lectures", this.lecturesList);
                         System.out.println("Lectueres successfully loaded!");
                     }

@@ -18,6 +18,7 @@ public class LectureFactory {
     private final QISParser qisParser;
     private final ODSFileWriter fileWriter;
     private final Table table;
+    private final List<String> titlesList;
 
     public LectureFactory(String pURL, String pSemester) {
         String urlOffset = "";
@@ -38,14 +39,16 @@ public class LectureFactory {
 
         }
         this.lectures = new ArrayList<>(0);
+        this.titlesList = Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
+                "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link");
         this.qisParser = new QISParser(pURL, urlOffset);
         this.fileWriter = new ODSFileWriter();
         this.table = this.fileWriter.createTable("Wochenplan");
     }
 
-    public LectureFactory(String pURL){
-       this(pURL, "default");
-    }
+//    public LectureFactory(String pURL){
+//       this(pURL, "default");
+//    }
 
     private void createTitleRow(List<String> rowItems){
         try {
@@ -76,8 +79,7 @@ public class LectureFactory {
     public void createODSFileFromLectures(String pFileName, boolean pLinkFlag){
 
         try {
-            this.createTitleRow(Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
-                    "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link"));
+            this.createTitleRow(this.titlesList);
 
             // defining different stylings for sheet
             TableColumnStyle columnStyleModules = TableColumnStyle.builder("column-modules").columnWidth(SimpleLength.in(0.4)).build();
