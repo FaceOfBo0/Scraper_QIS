@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,9 +45,6 @@
             <button id="loadBtn" class="btn btn-primary" style="color: whitesmoke">Plan laden</button>
         </div>
     </div>
-    <#if loaded == "1">
-        <h2>Test</h2>
-    </#if>
     <script>
         const loadBtn = document.getElementById("loadBtn");
         const urlVal = document.getElementById("urlInp").value.replaceAll("&","<amp>");

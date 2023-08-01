@@ -46,9 +46,9 @@ public class LectureFactory {
         this.table = this.fileWriter.createTable("Wochenplan");
     }
 
-//    public LectureFactory(String pURL){
-//       this(pURL, "default");
-//    }
+    public LectureFactory(String pURL){
+      this(pURL, "default");
+    }
 
     private void createTitleRow(List<String> rowItems){
         try {
@@ -66,18 +66,15 @@ public class LectureFactory {
         }
     }
     public List<Lecture> getLectures(){
-        if (this.lectures.size()==0) {
-//            this.qisParser.getLecturesLinks().forEach(elem -> this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem)));
-            for (int i = 0; i < this.qisParser.getLecturesLinks().size(); i++){
-                this.lectures.add(new Lecture_Text_Impl(this.qisParser.getLecturesTexts().get(i),
-                        this.qisParser.getLecturesLinks().get(i)));
-            }
+        if (this.lectures.isEmpty()) {
+            this.qisParser.getLecturesLinks().forEach(
+                    elem -> this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem))
+            );
         }
         return this.lectures;
     }
 
     public void createODSFileFromLectures(String pFileName, boolean pLinkFlag){
-
         try {
             this.createTitleRow(this.titlesList);
 
@@ -175,11 +172,17 @@ public class LectureFactory {
 
     }
 
-//    public ODSFileWriter getFileWriter() {
-//        return this.fileWriter;
-//    }
-//
-//    public QISParser getQisParser() {
-//        return qisParser;
-//    }
+    public ODSFileWriter getFileWriter() {
+        return this.fileWriter;
+    }
+
+    public QISParser getQisParser() {
+        return qisParser;
+    }
 }
+
+// getLecturers_v2()
+//            for (int i = 0; i < this.qisParser.getLecturesLinks().size(); i++){
+//                this.lectures.add(new Lecture_Text_Impl(this.qisParser.getLecturesTexts().get(i),
+//                        this.qisParser.getLecturesLinks().get(i)));
+//            }

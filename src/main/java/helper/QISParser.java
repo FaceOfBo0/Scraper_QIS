@@ -12,7 +12,6 @@ import java.util.Objects;
 public class QISParser {
     private final Document lecturesDoc;
     private final List<String> lecturesLinks;
-    private final List<String> lecturesTexts;
     private final String urlOffset;
 
     public QISParser(String pUrlName, String pUrlOffset) {
@@ -22,17 +21,8 @@ public class QISParser {
             throw new RuntimeException(e);
         }
         this.lecturesLinks = new ArrayList<>(0);
-        this.lecturesTexts = new ArrayList<>(0);
         this.urlOffset = pUrlOffset;
     }
-
-//    public Document getOneLectureDoc(String urlLecture) {
-//        try {
-//            return Jsoup.connect(urlLecture).get();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     public String getOneLectureText(String urlLecture) {
         if (!Objects.equals(this.urlOffset, ""))
@@ -49,7 +39,7 @@ public class QISParser {
     }
 
     public List<String> getLecturesLinks() {
-        if (this.lecturesLinks.size()==0){
+        if (this.lecturesLinks.isEmpty()){
             Elements linksElements = this.lecturesDoc.select("td > a[href]");
             linksElements.forEach(elem -> {
                 if (!Objects.equals(this.urlOffset, ""))
@@ -59,19 +49,29 @@ public class QISParser {
         }
         return this.lecturesLinks;
     }
+}
 
-    public List<String> getLecturesTexts() {
-        if (this.lecturesTexts.size()==0){
-            for (String elem : this.getLecturesLinks()) {
-                this.lecturesTexts.add(this.getOneLectureText(elem));
-            }
-        }
-        return this.lecturesTexts;
-    }
+
+//    private final List<String> lecturesTexts;
+
+//    public List<String> getLecturesTexts() {
+//        if (this.lecturesTexts.isEmpty()){
+//            for (String elem : this.getLecturesLinks()) {
+//                this.lecturesTexts.add(this.getOneLectureText(elem));
+//            }
+//        }
+//        return this.lecturesTexts;
+//    }
+
+//    public Document getOneLectureDoc(String urlLecture) {
+//        try {
+//            return Jsoup.connect(urlLecture).get();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
 //
 //    public Document getLecturesDoc(){
 //        return this.lecturesDoc;
 //    }
-
-
-}

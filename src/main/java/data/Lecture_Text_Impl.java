@@ -19,6 +19,9 @@ public class Lecture_Text_Impl implements Lecture{
     private String textRaw;
     private String room;
     private final Pattern roomPattern;
+    private String commentary;
+    private final Pattern commentaryPattern;
+
     private String link;
 
     public Lecture_Text_Impl(String pLectureText, String pLectureURL) {
@@ -34,8 +37,19 @@ public class Lecture_Text_Impl implements Lecture{
         this.modulesPattern = Pattern.compile("BM 1|BM 2|BM 3|AM 1|AM 2|AM 3|AM 4|AM 5|VM 1|VM 2|VM 3|GM 1|GM 2|GM 3");
         this.lecturersList = new ArrayList<>(0);
         this.lecturersPattern = Pattern.compile("Zuständigkeit\\s(.+?)\\s(Studiengänge\\sAbschluss|Zuordnung\\szu)+");
+        this.commentaryPattern = Pattern.compile("Inhalt\\sKommentar(.*?)\\sLeistungsnachweis");
+        this.commentary = "";
         this.setLink(pLectureURL);
         this.setTextRaw(pLectureText);
+    }
+
+    public String getCommentary(){
+        if (Objects.equals(this.commentary, "")) {
+            Matcher commentaryMatcher = this.commentaryPattern.matcher(this.textRaw);
+            if (commentaryMatcher.find()) this.commentary = commentaryMatcher.group(1).trim();
+            else this.commentary = "n.a.";
+        }
+        return this.commentary;
     }
 
     @Override
@@ -65,7 +79,7 @@ public class Lecture_Text_Impl implements Lecture{
 
     @Override
     public List<String> getLecturersList() {
-        if (this.lecturersList.size()==0){
+        if (this.lecturersList.isEmpty()){
             Matcher lecturerMatcher = this.lecturersPattern.matcher(this.textRaw);
             String lecturersRaw = "";
             if (lecturerMatcher.find()){
@@ -119,7 +133,7 @@ public class Lecture_Text_Impl implements Lecture{
 
     @Override
     public Set<String> getModulesSet() {
-        if (this.modulesList.size()==0){
+        if (this.modulesList.isEmpty()){
             Matcher moduleMatcher = this.modulesPattern.matcher(this.textRaw);
             while(moduleMatcher.find()){
                 this.addModule(moduleMatcher.group(0));
