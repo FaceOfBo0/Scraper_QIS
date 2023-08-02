@@ -11,13 +11,12 @@ public interface Lecture {
     void addLecturer(String lecturer);
     List<String> getLecturersList();
     String getTime();
+    String getFlags();
     String getTitle();
     void addModule(String module);
     Set<String> getModulesSet();
-    void setTextRaw(String text);
     String getTextRaw();
     String getLink();
-    void setLink(String urlLink);
 }
 
 

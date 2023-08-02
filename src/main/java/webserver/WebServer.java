@@ -30,18 +30,18 @@ public class WebServer {
 
             if (Objects.equals(load, "1")) {
                 if (!Objects.equals(url, "") && !Objects.equals(semester, "")) {
-                    if (this.lecturesList.size()==0) {
+                    if (this.lecturesList.isEmpty()) {
                         this.factory = new LectureFactory(url, semester);
                         this.lecturesList = this.factory.getLectures();
                         this.lecturesList.sort(new DayComparator());
                         attributes.put("lectures", this.lecturesList);
-                        System.out.println("Lectueres successfully loaded!");
+                        System.out.println("Lectures successfully loaded!");
                     }
                     else System.out.println("Lectures already loaded!");
                 }
-                else throw new InvalidParameterException("''url' or 'semester' not found!");
+                else throw new InvalidParameterException("'url' or 'semester' not found!");
             }
-            if (this.lecturesList.size()!=0)
+            if (!this.lecturesList.isEmpty())
                 attributes.put("loaded","1");
             else attributes.put("loaded","0");
             return new ModelAndView(attributes, "root.ftl");

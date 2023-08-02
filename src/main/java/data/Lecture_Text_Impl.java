@@ -17,6 +17,7 @@ public class Lecture_Text_Impl implements Lecture{
     private final Set<String> modulesList;
     private final Pattern modulesPattern;
     private String textRaw;
+    private StringBuilder flags;
     private String room;
     private final Pattern roomPattern;
     private String commentary;
@@ -37,10 +38,24 @@ public class Lecture_Text_Impl implements Lecture{
         this.modulesPattern = Pattern.compile("BM 1|BM 2|BM 3|AM 1|AM 2|AM 3|AM 4|AM 5|VM 1|VM 2|VM 3|GM 1|GM 2|GM 3");
         this.lecturersList = new ArrayList<>(0);
         this.lecturersPattern = Pattern.compile("Zuständigkeit\\s(.+?)\\s(Studiengänge\\sAbschluss|Zuordnung\\szu)+");
-        this.commentaryPattern = Pattern.compile("Inhalt\\sKommentar(.*?)\\sLeistungsnachweis");
         this.commentary = "";
-        this.setLink(pLectureURL);
-        this.setTextRaw(pLectureText);
+        this.flags = new StringBuilder();
+        this.commentaryPattern = Pattern.compile("Inhalt\\sKommentar(.*?)\\sLeistungsnachweis");
+        this.link = pLectureURL;
+        this.textRaw = pLectureText;
+    }
+
+    public String getFlags(){
+        if (this.flags.isEmpty()){
+            this.flags = new StringBuilder("V___");
+            if (!Objects.equals(this.getRoom(), "n.a."))
+                this.flags.setCharAt(1,'R');
+            if (!this.getModulesSet().isEmpty())
+                this.flags.setCharAt(2,'M');
+            if (!Objects.equals(this.getCommentary(), "n.a.") && !Objects.equals(this.getCommentary(), "...") && !Objects.equals(this.getCommentary(), ""))
+                this.flags.setCharAt(3,'B');
+        }
+        return this.flags.toString();
     }
 
     public String getCommentary(){
@@ -147,17 +162,9 @@ public class Lecture_Text_Impl implements Lecture{
         return this.textRaw;
     }
 
-    public void setTextRaw(String pText) {
-        this.textRaw = pText;
-    }
     @Override
     public String getLink() {
         return this.link;
-    }
-
-    @Override
-    public void setLink(String urlLink) {
-        this.link = urlLink;
     }
 
     @Override

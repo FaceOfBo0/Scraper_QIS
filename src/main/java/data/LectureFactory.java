@@ -40,7 +40,7 @@ public class LectureFactory {
         }
         this.lectures = new ArrayList<>(0);
         this.titlesList = Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
-                "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link");
+                "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link","VRMB");
         this.qisParser = new QISParser(pURL, urlOffset);
         this.fileWriter = new ODSFileWriter();
         this.table = this.fileWriter.createTable("Wochenplan");
@@ -86,7 +86,7 @@ public class LectureFactory {
             TableCellStyle cellStyleModules = TableCellStyle.builder("cell-middle").verticalAlign(VerticalAlign.MIDDLE).textAlign(CellAlign.CENTER).build();
 
             // applying different stylings for columns
-            for (int i = 0; i < 19; i++) {
+            for (int i = 0; i < 20; i++) {
                 if (i > 4 && i < 17) {
                     this.table.setColumnStyle(i,columnStyleModules);
                     this.table.setColumnDefaultCellStyle(i, cellStyleModules);
@@ -163,6 +163,7 @@ public class LectureFactory {
                     row.getOrCreateCell(15).setStringValue("x");
                 if (this.lectures.get(i).getModulesSet().contains("GM 3"))
                     row.getOrCreateCell(16).setStringValue("x");
+                row.getOrCreateCell(19).setStringValue(this.lectures.get(i).getFlags());
             }
             this.fileWriter.saveDocAsODS(pFileName);
 
