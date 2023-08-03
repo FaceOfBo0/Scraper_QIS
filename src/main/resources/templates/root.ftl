@@ -30,29 +30,31 @@
 <body style="background-color: #2B2A33; color: whitesmoke">
     <h1>LSF Wochenplan Editor</h1>
     <hr width="410px">
+    <form action="/submit" method="post">
     <div class="input-group mb-3" id="urlForm">
         <div class="input-group-prepend">
             <span class="input-group-text spanClass">LSF-Link</span>
         </div>
-        <input value="https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100" type="text" id="urlInp" class="form-control">
+        <input value="https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100" type="text" id="urlInp" name="url" class="form-control">
     </div>
     <div class="input-group mb-3" id="semesterForm">
         <div class="input-group-prepend">
             <span class="input-group-text spanClass">Semester</span>
         </div>
-        <input value="2023.2" type="text" id="semesterInp" class="form-control">
+        <input value="2023.2" type="text" id="semesterInp" name="semester" class="form-control">
         <div class="buttonForm input-group-append">
-            <button id="loadBtn" class="btn btn-primary" style="color: whitesmoke">Plan laden</button>
+            <button id="loadBtn" class="btn btn-primary" type="submit" style="color: whitesmoke">Plan laden</button>
         </div>
     </div>
-    <script>
+    </form>
+    <#--<script>
         const loadBtn = document.getElementById("loadBtn");
         const urlVal = document.getElementById("urlInp").value.replaceAll("&","<amp>");
         const semesterVal = document.getElementById("semesterInp").value;
         loadBtn.addEventListener("click", () => {
             window.location.href = "/?load=1&url=" + urlVal + "&semester="+ semesterVal;
         });
-    </script>
+    </script>-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
             integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
             crossorigin="anonymous"></script>

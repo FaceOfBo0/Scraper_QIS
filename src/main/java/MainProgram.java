@@ -8,10 +8,10 @@ import java.util.List;
 public class MainProgram {
 
     public static void main(String[] args) {
-        LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
-        lecFac.createODSFileFromLectures("results.ods",true);
-//        WebServer ws = new WebServer(4567);
-//        ws.runRoutes();
+//        LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
+        //lecFac.createODSFileFromLectures("results.ods",true);
+        WebServer ws = new WebServer(4567);
+        ws.runRoutes();
 
     }
 }

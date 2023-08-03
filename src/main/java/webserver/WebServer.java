@@ -21,30 +21,41 @@ public class WebServer {
         this.config.setClassLoaderForTemplateLoading(ClassLoader.getSystemClassLoader(), "templates");
     }
 
-    public void runRoutes(){
-        Spark.get("/","text/html", (req, res) -> {
-            String load = req.queryParams().contains("load") ? req.queryParams("load") : "";
-            String url = req.queryParams().contains("url") ? req.queryParams("url").replace("<amp>","&") : "";
-            String semester = req.queryParams().contains("semester") ? req.queryParams("semester") : "";
-            Map<String, Object> attributes = new HashMap<>(0);
+    public void runRoutes() {
+        Spark.get("/", (req, res) -> {
+            return new ModelAndView(null, "root.ftl");
+        }, new FreeMarkerEngine(this.config));
 
-            if (Objects.equals(load, "1")) {
-                if (!Objects.equals(url, "") && !Objects.equals(semester, "")) {
-                    if (this.lecturesList.isEmpty()) {
-                        this.factory = new LectureFactory(url, semester);
-                        this.lecturesList = this.factory.getLectures();
-                        this.lecturesList.sort(new DayComparator());
-                        attributes.put("lectures", this.lecturesList);
-                        System.out.println("Lectures successfully loaded!");
-                    }
-                    else System.out.println("Lectures already loaded!");
-                }
-                else throw new InvalidParameterException("'url' or 'semester' not found!");
-            }
-            if (!this.lecturesList.isEmpty())
-                attributes.put("loaded","1");
-            else attributes.put("loaded","0");
-            return new ModelAndView(attributes, "root.ftl");
+        Spark.post("/submit", (req, res) -> {
+            System.out.println(req.queryParams("url"));
+            System.out.println(req.queryParams("semester"));
+            return new ModelAndView(null, "chart.ftl");
         }, new FreeMarkerEngine(this.config));
     }
+//        Spark.get("/","text/html", (req, res) -> {
+//            String load = req.queryParams().contains("load") ? req.queryParams("load") : "";
+//            String url = req.queryParams().contains("url") ? req.queryParams("url").replace("<amp>","&") : "";
+//            String semester = req.queryParams().contains("semester") ? req.queryParams("semester") : "";
+//            Map<String, Object> attributes = new HashMap<>(0);
+//
+//            if (Objects.equals(load, "1")) {
+//                if (!Objects.equals(url, "")) {
+//                    if (this.lecturesList.isEmpty()) {
+//                        if (!Objects.equals(semester, ""))
+//                            this.factory = new LectureFactory(url, semester);
+//                        else this.factory = new LectureFactory(url);
+//                        this.lecturesList = this.factory.getLectures();
+//                        this.lecturesList.sort(new DayComparator());
+//                        attributes.put("lecturesList", this.lecturesList);
+//                        System.out.println("Lectures successfully loaded!");
+//                    }
+//                    else System.out.println("Lectures already loaded!");
+//                }
+//                else throw new InvalidParameterException("'url' or 'semester' not found!");
+//            }
+//            if (!this.lecturesList.isEmpty())
+//                attributes.put("loaded", "1");
+//            else attributes.put("loaded", "0");
+//            return new ModelAndView(attributes, "root.ftl");
+//        }, new FreeMarkerEngine(this.config));
 }
