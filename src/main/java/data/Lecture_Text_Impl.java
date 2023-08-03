@@ -16,14 +16,13 @@ public class Lecture_Text_Impl implements Lecture{
     private final Pattern titlePattern;
     private final Set<String> modulesList;
     private final Pattern modulesPattern;
-    private String textRaw;
+    private final String textRaw;
     private StringBuilder flags;
     private String room;
     private final Pattern roomPattern;
     private String commentary;
     private final Pattern commentaryPattern;
-
-    private String link;
+    private final String link;
 
     public Lecture_Text_Impl(String pLectureText, String pLectureURL) {
         this.day = "";
