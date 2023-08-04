@@ -30,12 +30,12 @@
 <body style="background-color: #2B2A33; color: whitesmoke">
     <h1>LSF Wochenplan Editor</h1>
     <hr width="410px">
-    <form action="/submit" method="post">
+    <form action="/chart" method="post">
     <div class="input-group mb-3" id="urlForm">
         <div class="input-group-prepend">
             <span class="input-group-text spanClass">LSF-Link</span>
         </div>
-        <input value="https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100" type="text" id="urlInp" name="url" class="form-control">
+        <input value="https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100" type="text" id="urlInp" name="url" class="form-control" required>
     </div>
     <div class="input-group mb-3" id="semesterForm">
         <div class="input-group-prepend">

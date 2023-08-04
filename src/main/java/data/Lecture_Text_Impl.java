@@ -23,6 +23,7 @@ public class Lecture_Text_Impl implements Lecture{
     private String commentary;
     private final Pattern commentaryPattern;
     private final String link;
+    private String lecturers;
 
     public Lecture_Text_Impl(String pLectureText, String pLectureURL) {
         this.day = "";
@@ -37,6 +38,7 @@ public class Lecture_Text_Impl implements Lecture{
         this.modulesPattern = Pattern.compile("BM 1|BM 2|BM 3|AM 1|AM 2|AM 3|AM 4|AM 5|VM 1|VM 2|VM 3|GM 1|GM 2|GM 3");
         this.lecturersList = new ArrayList<>(0);
         this.lecturersPattern = Pattern.compile("Zuständigkeit\\s(.+?)\\s(Studiengänge\\sAbschluss|Zuordnung\\szu)+");
+        this.lecturers = "";
         this.commentary = "";
         this.flags = new StringBuilder();
         this.commentaryPattern = Pattern.compile("Inhalt\\sKommentar(.*?)\\sLeistungsnachweis");
@@ -89,6 +91,14 @@ public class Lecture_Text_Impl implements Lecture{
     @Override
     public void addLecturer(String lecturer) {
         this.lecturersList.add(lecturer);
+    }
+
+    public String getLecturers() {
+        if (this.getLecturersList().size() > 1)
+            this.lecturers = String.join(", ", this.getLecturersList());
+        else if (this.getLecturersList().size() == 1)
+            this.lecturers = this.getLecturersList().get(0);
+        return this.lecturers;
     }
 
     @Override

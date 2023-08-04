@@ -8,13 +8,15 @@ import spark.ModelAndView;
 import spark.Spark;
 import spark.template.freemarker.FreeMarkerEngine;
 
-import java.security.InvalidParameterException;
 import java.util.*;
 
 public class WebServer {
     private LectureFactory factory;
     private List<Lecture> lecturesList = new ArrayList<>(0);
     private final Configuration config = new Configuration(Configuration.VERSION_2_3_26);
+    private String url;
+    private String semester;
+    private Map<String, Object> attributesChart = new HashMap<>(0);
 
     public WebServer(int pPort){
         Spark.port(pPort);
@@ -22,14 +24,30 @@ public class WebServer {
     }
 
     public void runRoutes() {
-        Spark.get("/", (req, res) -> {
-            return new ModelAndView(null, "root.ftl");
-        }, new FreeMarkerEngine(this.config));
+        Spark.get("/", (req, res) -> new ModelAndView(null, "root.ftl"),
+                new FreeMarkerEngine(this.config));
 
-        Spark.post("/submit", (req, res) -> {
-            System.out.println(req.queryParams("url"));
-            System.out.println(req.queryParams("semester"));
-            return new ModelAndView(null, "chart.ftl");
+        Spark.post("/chart", (req, res) -> {
+            String tempUrl = req.queryParams("url");
+            String tempSemester = req.queryParams("semester");
+
+            if (!Objects.equals(tempUrl, this.url) || !Objects.equals(tempSemester, this.semester)) {
+                if (!Objects.equals(semester, ""))
+                    this.factory = new LectureFactory(tempUrl, tempSemester);
+                else this.factory = new LectureFactory(tempUrl);
+                this.lecturesList = this.factory.getLectures();
+                this.lecturesList.sort(new DayComparator());
+                this.attributesChart.clear();
+                this.attributesChart.put("lecturesList", this.lecturesList);
+                this.url = tempUrl;
+                this.semester = tempSemester;
+                System.out.println("Lectures successfully loaded!");
+            }
+            else System.out.println("Lectures already loaded!");
+
+            this.url = req.queryParams("url");
+            this.semester = req.queryParams("semester");
+            return new ModelAndView(this.attributesChart, "chart.ftl");
         }, new FreeMarkerEngine(this.config));
     }
 //        Spark.get("/","text/html", (req, res) -> {

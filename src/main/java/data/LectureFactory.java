@@ -28,15 +28,12 @@ public class LectureFactory {
             if (Objects.equals(half, "1")) {
                 urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Sommer+" + year;
                 pURL = pURL + urlOffset;
-                System.out.println(pURL);
             }
             else if (Objects.equals(half, "2")) {
                 int newYearShort = Integer.parseInt(year.substring(2))+1;
                 urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Winter+" + year + "%2F" + newYearShort;
                 pURL = pURL + urlOffset;
-                System.out.println(pURL);
             }
-
         }
         this.lectures = new ArrayList<>(0);
         this.titlesList = Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
@@ -130,12 +127,7 @@ public class LectureFactory {
                 }
                 row.getOrCreateCell(2).setStyle(wrapedCellStyle);
 
-                String lecturers = "";
-                if (this.lectures.get(i).getLecturersList().size() > 1)
-                    lecturers = String.join(", ", this.lectures.get(i).getLecturersList());
-                else if (this.lectures.get(i).getLecturersList().size() == 1)
-                    lecturers = this.lectures.get(i).getLecturersList().get(0);
-                row.getOrCreateCell(3).setStringValue(lecturers);
+                row.getOrCreateCell(3).setStringValue(this.lectures.get(i).getLecturers());
                 row.getOrCreateCell(3).setStyle(wrapedCellStyle);
 
                 row.getOrCreateCell(4).setStringValue(this.lectures.get(i).getRoom());
