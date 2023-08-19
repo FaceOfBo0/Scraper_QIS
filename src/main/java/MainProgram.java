@@ -1,17 +1,39 @@
-import data.Lecture;
-import data.LectureFactory;
-import data.Lecture_Text_Impl;
+import helper.OlatApiCall;
+import helper.OlatApiConnector;
+import org.jsoup.Connection;
 import webserver.WebServer;
+import data.LectureFactory;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
 
 public class MainProgram {
 
     public static void main(String[] args) {
-//        LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
-        //lecFac.createODSFileFromLectures("results.ods",true);
-        WebServer ws = new WebServer(4567);
-        ws.runRoutes();
+        //LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
+        //lecFac.createODSFileFromLectures("QIS23.24.ods",true);
+//        WebServer ws = new WebServer(4567);
+//        ws.runRoutes();
+        String apiBaseUrl = "https://olat-ce.server.uni-frankfurt.de/olat/restapi";
+        OlatApiConnector olatClient = new OlatApiConnector(apiBaseUrl, "tim.koenig", "!Cw25.9!");
+        try {
+            olatClient.connect();
+            String xOlatToken = olatClient.getResponse().headers().get("X-OLAT-TOKEN");
+
+            OlatApiCall courseCreate = new OlatApiCall(apiBaseUrl+"/repo/entries/search?myentries=true", Connection.Method.GET, xOlatToken);
+            System.out.println(courseCreate.getStatusCode());
+            System.out.println(courseCreate.getResponseBody());
+            System.out.println();
+            //courseCreate.getResponse().headers().forEach((key, value) -> System.out.println(key+": "+value));
+
+//            OlatApiCall usersCall = new OlatApiCall(apiBaseUrl+"/users/"+identityKey,
+//                    Connection.Method.GET, xOlatToken);
+//            System.out.println(usersCall.getStatusCode());
+//            System.out.println(usersCall.getResponseBody());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

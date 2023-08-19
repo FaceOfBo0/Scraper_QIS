@@ -46,7 +46,6 @@
         <th>Veranstaltung</th>
         <th>Lehrende</th>
         <th>Raum</th>
-        <!-- Add more <th> elements for additional attributes -->
     </tr>
     <#list lecturesList as lecture>
         <tr>
@@ -55,7 +54,6 @@
             <td>${lecture.getTitle()}</td>
             <td>${lecture.getLecturers()}</td>
             <td>${lecture.getRoom()}</td>
-            <!-- Add more <td> elements for additional attributes -->
         </tr>
     </#list>
 </table>

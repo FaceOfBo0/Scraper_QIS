@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class QISParser {
+public class QisParser {
     private final Document lecturesDoc;
     private final List<String> lecturesLinks;
     private final String urlOffset;
 
-    public QISParser(String pUrlName, String pUrlOffset) {
+    public QisParser(String pUrlName, String pUrlOffset) {
         try {
             this.lecturesDoc = Jsoup.connect(pUrlName).get();
         } catch (IOException e) {

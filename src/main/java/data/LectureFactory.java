@@ -7,7 +7,7 @@ import com.github.jferard.fastods.attribute.VerticalAlign;
 import com.github.jferard.fastods.style.*;
 import helper.DayComparator;
 import helper.ODSFileWriter;
-import helper.QISParser;
+import helper.QisParser;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,7 +15,7 @@ import java.util.*;
 public class LectureFactory {
 
     private List<Lecture> lectures;
-    private final QISParser qisParser;
+    private final QisParser qisParser;
     private final ODSFileWriter fileWriter;
     private final Table table;
     private final List<String> titlesList;
@@ -38,7 +38,7 @@ public class LectureFactory {
         this.lectures = new ArrayList<>(0);
         this.titlesList = Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
                 "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link","VRMB");
-        this.qisParser = new QISParser(pURL, urlOffset);
+        this.qisParser = new QisParser(pURL, urlOffset);
         this.fileWriter = new ODSFileWriter();
         this.table = this.fileWriter.createTable("Wochenplan");
     }
@@ -169,7 +169,7 @@ public class LectureFactory {
         return this.fileWriter;
     }
 
-    public QISParser getQisParser() {
+    public QisParser getQisParser() {
         return qisParser;
     }
 }
