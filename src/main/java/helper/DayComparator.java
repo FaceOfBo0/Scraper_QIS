@@ -6,9 +6,13 @@ import java.util.*;
 public class DayComparator implements Comparator<Lecture> {
 
     Set<List<String>> lessDaySet = new HashSet<>(Arrays.asList(Arrays.asList("Mo", "Di"),
-            Arrays.asList("Mo", "Mi"), Arrays.asList("Mo", "Do"),Arrays.asList("Mo", "Fr"),
-            Arrays.asList("Di", "Mi"),Arrays.asList("Di", "Do"),Arrays.asList("Di", "Fr"),
-            Arrays.asList("Mi", "Do"),Arrays.asList("Mi", "Fr"),Arrays.asList("Do", "Fr")));
+            Arrays.asList("Mo", "Mi"), Arrays.asList("Mo", "Do"), Arrays.asList("Mo", "Fr"),
+            Arrays.asList("Di", "Mi"), Arrays.asList("Di", "Do"), Arrays.asList("Di", "Fr"),
+            Arrays.asList("Mi", "Do"), Arrays.asList("Mi", "Fr"), Arrays.asList("Do", "Fr"),
+            Arrays.asList("Mo", "Sa"), Arrays.asList("Mo", "So"), Arrays.asList("Di", "Sa"),
+            Arrays.asList("Di", "So"), Arrays.asList("Mi", "Sa"), Arrays.asList("Mi", "So"),
+            Arrays.asList("Do", "Sa"), Arrays.asList("Do", "So"), Arrays.asList("Fr", "Sa"),
+            Arrays.asList("Fr", "So"), Arrays.asList("Sa", "So")));
 
     private boolean lessDay (Lecture o1, Lecture o2){
         if (Objects.equals(o1.getDay(), "Block") || Objects.equals(o1.getDay(), "n.a.")) return false;

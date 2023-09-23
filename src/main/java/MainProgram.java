@@ -10,30 +10,30 @@ import java.util.Map;
 public class MainProgram {
 
     public static void main(String[] args) {
-        //LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
-        //lecFac.createODSFileFromLectures("QIS23.24.ods",true);
+        LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
+        lecFac.createODSFileFromLectures("QIS23.24.ods",true);
 //        WebServer ws = new WebServer(4567);
 //        ws.runRoutes();
-        String apiBaseUrl = "https://olat-ce.server.uni-frankfurt.de/olat/restapi";
-        OlatApiConnector olatClient = new OlatApiConnector(apiBaseUrl, "tim.koenig", "!Cw25.9!");
-        try {
-            olatClient.connect();
-            String xOlatToken = olatClient.getResponse().headers().get("X-OLAT-TOKEN");
-
-            OlatApiCall courseCreate = new OlatApiCall(apiBaseUrl+"/repo/entries/search?myentries=true", Connection.Method.GET, xOlatToken);
-            System.out.println(courseCreate.getStatusCode());
-            System.out.println(courseCreate.getResponseBody());
-            System.out.println();
-            //courseCreate.getResponse().headers().forEach((key, value) -> System.out.println(key+": "+value));
-
-//            OlatApiCall usersCall = new OlatApiCall(apiBaseUrl+"/users/"+identityKey,
-//                    Connection.Method.GET, xOlatToken);
-//            System.out.println(usersCall.getStatusCode());
-//            System.out.println(usersCall.getResponseBody());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        String apiBaseUrl = "https://olat-ce.server.uni-frankfurt.de/olat/restapi";
+//        OlatApiConnector olatClient = new OlatApiConnector(apiBaseUrl, "tim.koenig", "!Cw25.9!");
+//        try {
+//            olatClient.connect();
+//            String xOlatToken = olatClient.getResponse().headers().get("X-OLAT-TOKEN");
+//
+//            OlatApiCall courseCreate = new OlatApiCall(apiBaseUrl+"/repo/entries/search?myentries=true", Connection.Method.GET, xOlatToken);
+//            System.out.println(courseCreate.getStatusCode());
+//            System.out.println(courseCreate.getResponseBody());
+//            System.out.println();
+//            //courseCreate.getResponse().headers().forEach((key, value) -> System.out.println(key+": "+value));
+//
+////            OlatApiCall usersCall = new OlatApiCall(apiBaseUrl+"/users/"+identityKey,
+////                    Connection.Method.GET, xOlatToken);
+////            System.out.println(usersCall.getStatusCode());
+////            System.out.println(usersCall.getResponseBody());
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 }
