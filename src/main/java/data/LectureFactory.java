@@ -8,12 +8,13 @@ import com.github.jferard.fastods.style.*;
 import helper.DayComparator;
 import helper.ODSFileWriter;
 import helper.QisParser;
-
 import java.io.IOException;
 import java.util.*;
 
 public class LectureFactory {
 
+    private String url;
+    private final String semester;
     private List<Lecture> lectures;
     private final QisParser qisParser;
     private final ODSFileWriter fileWriter;
@@ -21,48 +22,55 @@ public class LectureFactory {
     private final List<String> titlesList;
 
     public LectureFactory(String pURL, String pSemester) {
-        String urlOffset = "";
-        if (!Objects.equals(pSemester, "default") && pSemester.length()==6) {
-            String year = pSemester.split("\\.")[0];
-            String half = pSemester.split("\\.")[1];
-            if (Objects.equals(half, "1")) {
-                urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Sommer+" + year;
-                pURL = pURL + urlOffset;
-            }
-            else if (Objects.equals(half, "2")) {
-                int newYearShort = Integer.parseInt(year.substring(2))+1;
-                urlOffset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Winter+" + year + "%2F" + newYearShort;
-                pURL = pURL + urlOffset;
-            }
-        }
+        this.url = pURL;
+        this.semester = pSemester;
         this.lectures = new ArrayList<>(0);
-        this.titlesList = Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
-                "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link","VRMB");
-        this.qisParser = new QisParser(pURL, urlOffset);
+        String offset = this.createUrlOffset();
+        this.qisParser = new QisParser(this.url, offset);
         this.fileWriter = new ODSFileWriter();
         this.table = this.fileWriter.createTable("Wochenplan");
+        this.titlesList = Arrays.asList("Tag","Uhrzeit","Veranstaltung","Dozent","Raum","BM 1","BM 2","BM 3",
+                "AM 1","AM 2","AM 3","VM 1","VM 2","VM 3","GM 1","GM 2","GM 3", "Sonst.","OLAT Link","VRMB");
     }
 
-    public LectureFactory(String pURL){
-      this(pURL, "default");
+    public LectureFactory(String pURL) {
+        this(pURL, "default");
     }
 
-    private void createTitleRow(List<String> rowItems){
+    private String createUrlOffset() {
+        if (!Objects.equals(this.semester, "default") && this.semester.length()==6) {
+            String year = this.semester.split("\\.")[0];
+            String half = this.semester.split("\\.")[1];
+            if (Objects.equals(half, "1")) {
+                String offset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Sommer+" + year;
+                this.url = this.url + offset;
+                return offset;
+            }
+            else if (Objects.equals(half, "2")) {
+                int newYearShort = Integer.parseInt(year.substring(2)) + 1;
+                String offset = "&k_semester.semid=" + year + half + "&idcol=k_semester.semid&idval="+ year + half +"&purge=n&getglobal=semester&text=Winter+" + year + "%2F" + newYearShort;
+                this.url = this.url + offset;
+                return offset;
+            }
+        }
+        return "";
+    }
+
+    private void createTitleRow(){
         try {
-            TableCellWalker cellWalker;
             TableCellStyle headerStyle = TableCellStyle.builder("bold").fontWeightBold().build();
-            cellWalker = this.table.getWalker();
-            for (String rowItem : rowItems) {
+            TableCellWalker cellWalker = this.table.getWalker();
+            for (String rowItem : this.titlesList) {
                 cellWalker.setStringValue(rowItem);
                 cellWalker.setStyle(headerStyle);
                 cellWalker.next();
             }
         } catch (IOException e) {
-
             throw new RuntimeException(e);
         }
     }
-    public List<Lecture> getLectures(){
+
+    public List<Lecture> getLectures() {
         if (this.lectures.isEmpty()) {
             this.qisParser.getLecturesLinks().forEach(
                     elem -> this.lectures.add(new Lecture_Text_Impl(this.qisParser.getOneLectureText(elem), elem))
@@ -71,18 +79,18 @@ public class LectureFactory {
         return this.lectures;
     }
 
-    public void createODSFileFromLectures(String pFileName, boolean pLinkFlag){
+    public void createFileFromLectures(String pFileName, boolean pLinkFlag) {
         try {
-            this.createTitleRow(this.titlesList);
+            this.createTitleRow();
 
-            // defining different stylings for sheet
+            // defining different styling for sheet
             TableColumnStyle columnStyleModules = TableColumnStyle.builder("column-modules").columnWidth(SimpleLength.in(0.4)).build();
-            TableCellStyle wrapedCellStyle = TableCellStyle.builder("cell-wraped").fontWrap(true).build();
+            TableCellStyle wrappedCellStyle = TableCellStyle.builder("cell-wraped").fontWrap(true).build();
             TableColumnStyle columnStyleDefault = TableColumnStyle.builder("column-default").build();
             TableRowStyle rowStyleDouble = TableRowStyle.builder("row-default").rowHeight(SimpleLength.in(0.32)).build();
             TableCellStyle cellStyleModules = TableCellStyle.builder("cell-middle").verticalAlign(VerticalAlign.MIDDLE).textAlign(CellAlign.CENTER).build();
 
-            // applying different stylings for columns
+            // applying different styling for columns
             for (int i = 0; i < 20; i++) {
                 if (i > 4 && i < 17) {
                     this.table.setColumnStyle(i,columnStyleModules);
@@ -91,44 +99,30 @@ public class LectureFactory {
                 else this.table.setColumnStyle(i,columnStyleDefault);
             }
 
-
+            // Load Lectures and sort by day and time with custom comparator
             this.lectures = this.getLectures();
             this.lectures.sort(new DayComparator());
 
-
+            //base loop to write lectures in rows
             for (int i = 0; i < this.lectures.size(); i++){
-                TableRowImpl row = this.table.getRow(i+1);
+
+                TableRowImpl row = this.table.getRow(i + 1);
                 row.setRowStyle(rowStyleDouble);
+
+                // write Day and Time to Row
                 row.getOrCreateCell(0).setStringValue(this.lectures.get(i).getDay());
                 row.getOrCreateCell(1).setStringValue(this.lectures.get(i).getTime());
 
-                if(!pLinkFlag)
+                // write Title to Row
+                if (pLinkFlag)
+                    this.createTitleLink(row, i);
+                else
                     row.getOrCreateCell(2).setStringValue(this.lectures.get(i).getTitle());
-                else {
-                    String titleRaw = this.lectures.get(i).getTitle();
-                    if (titleRaw.length() > 30) {
-                        List<String> splitTitle = new ArrayList<>(Arrays.asList(titleRaw.split(" ")));
-                        List<String> splitTitleLink = new ArrayList<>(0);
-                        String titleLink;
-                        String titleRest;
+                row.getOrCreateCell(2).setStyle(wrappedCellStyle);
 
-                        if (splitTitle.contains("Forschungskolloquium"))
-                            splitTitleLink.add(splitTitle.remove(0));
-                        else {
-                            splitTitleLink.add(splitTitle.remove(0));
-                            splitTitleLink.add(splitTitle.remove(0));
-                        }
-
-                        titleLink = String.join(" ",splitTitleLink);
-                        titleRest = String.join(" ",splitTitle);
-                        row.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(i).getLink()).span(" " + titleRest).build());
-                    }
-                    else row.getOrCreateCell(2).setText(Text.builder().par().link(this.lectures.get(i).getTitle(),this.lectures.get(i).getLink()).build());
-                }
-                row.getOrCreateCell(2).setStyle(wrapedCellStyle);
-
+                // write Lecturers to Row
                 row.getOrCreateCell(3).setStringValue(this.lectures.get(i).getLecturers());
-                row.getOrCreateCell(3).setStyle(wrapedCellStyle);
+                row.getOrCreateCell(3).setStyle(wrappedCellStyle);
 
                 row.getOrCreateCell(4).setStringValue(this.lectures.get(i).getRoom());
                 if (this.lectures.get(i).getModulesSet().contains("BM 1"))
@@ -155,6 +149,8 @@ public class LectureFactory {
                     row.getOrCreateCell(15).setStringValue("x");
                 if (this.lectures.get(i).getModulesSet().contains("GM 3"))
                     row.getOrCreateCell(16).setStringValue("x");
+
+                // write Flags "VRMB" to Row
                 row.getOrCreateCell(19).setStringValue(this.lectures.get(i).getFlags());
             }
             this.fileWriter.saveDocAsODS(pFileName);
@@ -165,14 +161,36 @@ public class LectureFactory {
 
     }
 
-    public ODSFileWriter getFileWriter() {
-        return this.fileWriter;
-    }
+    private void createTitleLink(TableRowImpl pRow, int pIndex) {
+        String titleRaw = this.lectures.get(pIndex).getTitle();
+        if (titleRaw.length() > 30) {
+            List<String> splitTitle = new ArrayList<>(Arrays.asList(titleRaw.split(" ")));
+            List<String> splitTitleLink = new ArrayList<>(0);
+            String titleLink;
+            String titleRest;
 
-    public QisParser getQisParser() {
-        return qisParser;
+            if (splitTitle.contains("Forschungskolloquium"))
+                splitTitleLink.add(splitTitle.remove(0));
+            else {
+                splitTitleLink.add(splitTitle.remove(0));
+                splitTitleLink.add(splitTitle.remove(0));
+            }
+
+            titleLink = String.join(" ",splitTitleLink);
+            titleRest = String.join(" ",splitTitle);
+            pRow.getOrCreateCell(2).setText(Text.builder().par().link(titleLink,this.lectures.get(pIndex).getLink()).span(" " + titleRest).build());
+        }
+        else pRow.getOrCreateCell(2).setText(Text.builder().par().link(this.lectures.get(pIndex).getTitle(),this.lectures.get(pIndex).getLink()).build());
     }
 }
+
+//    public ODSFileWriter getFileWriter() {
+//        return this.fileWriter;
+//    }
+//
+//    public QisParser getQisParser() {
+//        return qisParser;
+//    }
 
 // getLecturers_v2()
 //            for (int i = 0; i < this.qisParser.getLecturesLinks().size(); i++){

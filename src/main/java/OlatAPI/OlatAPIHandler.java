@@ -1,14 +1,13 @@
-package helper;
+package OlatAPI;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OlatApiConnector {
+public class OlatAPIHandler {
 
     private final String username;
     private final String password;
@@ -17,11 +16,15 @@ public class OlatApiConnector {
     private String responseBody;
     private Map<String, String> cookies = new HashMap<>(0);
     private Connection.Response response;
+    private static String olatToken;
+    private static String apiBaseUrl;
 
-    public OlatApiConnector(String restApiPath, String username, String password){
+    public OlatAPIHandler(String username, String password) throws IOException {
+        apiBaseUrl = "https://olat-ce.server.uni-frankfurt.de/olat/restapi";
         this.username = username;
-        this.apiAuthUrl = restApiPath + "/auth/" + username;
+        this.apiAuthUrl = apiBaseUrl + "/auth/" + username;
         this.password = password;
+        this.connect();
     }
 
     public void connect() throws IOException {
@@ -31,18 +34,28 @@ public class OlatApiConnector {
                 .ignoreContentType(true)
                 .execute();
 
-        this.statusCode = this.response.statusCode();
-        this.responseBody = this.response.body();
-
-        this.cookies = this.response.cookies();
+        this.statusCode = response.statusCode();
+        this.responseBody = response.body();
+        olatToken = response.headers().get("X-OLAT-TOKEN");
+        this.cookies = response.cookies();
     }
 
     public String getResponseBody() {
         return this.responseBody;
     }
 
+    public static String getOlatToken() {
+        return olatToken;
+    }
+
+    public static String getApiBaseUrl(){ return apiBaseUrl;}
+
     public String getIdentityKey() throws IOException {
-        return this.response.parse().getElementsByTag("hello").attr("identityKey");
+        return response.parse().getElementsByTag("hello").attr("identityKey");
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 
     public Map<String, String> getCookies() {
@@ -50,7 +63,7 @@ public class OlatApiConnector {
     }
 
     public Connection.Response getResponse() {
-        return this.response;
+        return response;
     }
 
     public Integer getStatusCode() {
