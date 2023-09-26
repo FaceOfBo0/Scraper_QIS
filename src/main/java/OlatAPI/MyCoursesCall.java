@@ -1,7 +1,7 @@
 package OlatAPI;
 
-import OlatAPI.JsonParsing.MyCoursesBody;
-import OlatAPI.JsonParsing.MyCoursesBodyDeserializer;
+import OlatAPI.JsonParsing.MyEntriesBody;
+import OlatAPI.JsonParsing.MyEntriesBodyDeserializer;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.jsoup.Connection;
@@ -32,10 +32,10 @@ public class MyCoursesCall implements OlatAPICall {
         return this.body;
     }
 
-    public List<MyCoursesBody> getParsedResponseBody() {
-        Type listCoursesType = new TypeToken<List<MyCoursesBody>>() {}.getType();
+    public List<MyEntriesBody> getParsedResponseBody() {
+        Type listCoursesType = new TypeToken<List<MyEntriesBody>>() {}.getType();
         GsonBuilder gs = new GsonBuilder();
-        gs.registerTypeAdapter(MyCoursesBody.class, new MyCoursesBodyDeserializer());
+        gs.registerTypeAdapter(MyEntriesBody.class, new MyEntriesBodyDeserializer());
         return gs.create().fromJson(this.body, listCoursesType);
     }
 
