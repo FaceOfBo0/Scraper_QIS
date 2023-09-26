@@ -1,7 +1,7 @@
 package OlatAPI.JsonParsing;
 
-public record MyCoursesBody(int key, String softkey, String resourcename,
-                            String displayname, int resourceableId, String resourceableTypeName) {
+public record MyCoursesBody(long key, String softkey, String resourcename,
+                            String displayname, long resourceableId, String resourceableTypeName) {
 
     @Override
     public String toString() {

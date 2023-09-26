@@ -1,6 +1,9 @@
+import OlatAPI.AddOwnerCall;
 import OlatAPI.JsonParsing.MyCoursesBody;
 import OlatAPI.MyCoursesCall;
 import OlatAPI.OlatAPIHandler;
+import OlatAPI.UserIDByParamCall;
+import org.eclipse.jetty.server.Authentication;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,13 +19,13 @@ public class MainProgram {
         try {
             OlatAPIHandler olatClient = new OlatAPIHandler("tim.koenig", "!Cw25.9!");
             MyCoursesCall myCourses = new MyCoursesCall();
+            System.out.println(myCourses.getParsedResponseBody());
+            //UserIDByParamCall newUserKey = new UserIDByParamCall("login","jakrebs");
+            //AddOwnerCall newOwner = new AddOwnerCall("19157680134","koenigt");
+            //System.out.println(newOwner.getStatusCode());
 
-            System.out.println(olatClient.getStatusCode());
-            System.out.println(olatClient.getIdentityKey());
-            System.out.println(myCourses.getResponseBody());
-            System.out.println();
-            List<MyCoursesBody> listCourses = myCourses.getParsedResponseBody();
-            System.out.println(listCourses);
+//            System.out.println(olatClient.getStatusCode());
+//            System.out.println(olatClient.getIdentityKey());
 
 //            OlatApiCall usersCall = new OlatApiCall(apiBaseUrl+"/users/"+identityKey,
 //                    Connection.Method.GET, xOlatToken);
