@@ -14,6 +14,7 @@ public class MainProgram {
 
         try {
             OlatAPIHandler olatClient = new OlatAPIHandler("tim.koenig", "!Cw25.9!");
+            olatClient.connect();
             MyCoursesCall myCourses = new MyCoursesCall();
             myCourses.getParsedResponseBody().forEach(elem -> System.out.println(elem+"\n"));
             //UserIDByParamCall newUserKey = new UserIDByParamCall("login","jakrebs");

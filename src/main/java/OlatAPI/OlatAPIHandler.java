@@ -24,7 +24,6 @@ public class OlatAPIHandler {
         this.username = username;
         this.apiAuthUrl = apiBaseUrl + "/auth/" + username;
         this.password = password;
-        this.connect();
     }
 
     public void connect() throws IOException {
