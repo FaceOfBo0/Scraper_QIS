@@ -46,14 +46,21 @@
         <th>Veranstaltung</th>
         <th>Lehrende</th>
         <th>Raum</th>
+        <th>Module</th>
+
+
     </tr>
     <#list lecturesList as lecture>
+        <#assign modules = lecture.getModulesSet()>
         <tr>
             <td>${lecture.getDay()}</td>
             <td>${lecture.getTime()}</td>
-            <td>${lecture.getTitle()}</td>
+            <td><a href="${lecture.getLink()}">${lecture.getTitle()}</a></td>
             <td>${lecture.getLecturers()}</td>
             <td>${lecture.getRoom()}</td>
+            <td><#list modules as module>
+                ${module},
+            </#list></td>
         </tr>
     </#list>
 </table>

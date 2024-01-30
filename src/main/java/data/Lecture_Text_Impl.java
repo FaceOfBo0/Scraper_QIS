@@ -14,7 +14,7 @@ public class Lecture_Text_Impl implements Lecture{
     private final Pattern timePattern;
     private String title;
     private final Pattern titlePattern;
-    private final Set<String> modulesList;
+    private final Set<String> modulesSet;
     private final Pattern modulesPattern;
     private final String textRaw;
     private StringBuilder flags;
@@ -34,7 +34,7 @@ public class Lecture_Text_Impl implements Lecture{
         this.titlePattern = Pattern.compile(":\\sStartseite\\s(.*)\\s-\\sEinzelansicht");
         this.room = "";
         this.roomPattern = Pattern.compile("woch.*?-\\s([A-Z][A-Z]\\s\\d*\\.?\\d+).*\\sGruppe");
-        this.modulesList = new HashSet<>(0);
+        this.modulesSet = new HashSet<>(0);
         this.modulesPattern = Pattern.compile("BM 1|BM 2|BM 3|AM 1|AM 2|AM 3|AM 4|AM 5|VM 1|VM 2|VM 3|GM 1|GM 2|GM 3");
         this.lecturersList = new ArrayList<>(0);
         this.lecturersPattern = Pattern.compile("Zuständigkeit\\s(.+?)\\s(Studiengänge\\sAbschluss|Zuordnung\\szu)+");
@@ -153,17 +153,17 @@ public class Lecture_Text_Impl implements Lecture{
     }
 
     @Override
-    public void addModule(String module){ this.modulesList.add(module); }
+    public void addModule(String module){ this.modulesSet.add(module); }
 
     @Override
     public Set<String> getModulesSet() {
-        if (this.modulesList.isEmpty()){
+        if (this.modulesSet.isEmpty()){
             Matcher moduleMatcher = this.modulesPattern.matcher(this.textRaw);
             while(moduleMatcher.find()){
                 this.addModule(moduleMatcher.group(0));
             }
         }
-        return this.modulesList;
+        return this.modulesSet;
     }
 
     @Override

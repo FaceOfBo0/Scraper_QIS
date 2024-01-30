@@ -1,5 +1,6 @@
 import OlatAPI.MyCoursesCall;
 import OlatAPI.OlatAPIHandler;
+import webserver.WebServer;
 
 import java.io.IOException;
 
@@ -9,29 +10,29 @@ public class MainProgram {
     public static void main(String[] args) {
 //        LectureFactory lecFac = new LectureFactory("https://qis.server.uni-frankfurt.de/qisserver/rds?state=verpublish&publishContainer=lectureInstList&publishid=80100");
 //        lecFac.createFileFromLectures("QIS23.24.ods",true);
-//        WebServer ws = new WebServer(4567);
-//        ws.runRoutes();
+        WebServer ws = new WebServer(4567);
+        ws.runRoutes();
 
-        try {
-            OlatAPIHandler olatClient = new OlatAPIHandler("tim.koenig", "!Cw25.9!");
-            olatClient.connect();
-            MyCoursesCall myCourses = new MyCoursesCall();
-            myCourses.getParsedResponseBody().forEach(elem -> System.out.println(elem+"\n"));
-            //UserIDByParamCall newUserKey = new UserIDByParamCall("login","jakrebs");
-            //AddOwnerCall newOwner = new AddOwnerCall("19157680134","koenigt");
-            //System.out.println(newOwner.getStatusCode());
-
-//            System.out.println(olatClient.getStatusCode());
-//            System.out.println(olatClient.getIdentityKey());
-
-//            OlatApiCall usersCall = new OlatApiCall(apiBaseUrl+"/users/"+identityKey,
-//                    Connection.Method.GET, xOlatToken);
-//            System.out.println(usersCall.getStatusCode());
-//            System.out.println(usersCall.getResponseBody());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            OlatAPIHandler olatClient = new OlatAPIHandler("tim.koenig", "!Cw25.9!");
+//            olatClient.connect();
+//            MyCoursesCall myCourses = new MyCoursesCall();
+//            myCourses.getParsedResponseBody().forEach(elem -> System.out.println(elem+"\n"));
+//            //UserIDByParamCall newUserKey = new UserIDByParamCall("login","jakrebs");
+//            //AddOwnerCall newOwner = new AddOwnerCall("19157680134","koenigt");
+//            //System.out.println(newOwner.getStatusCode());
+//
+////            System.out.println(olatClient.getStatusCode());
+////            System.out.println(olatClient.getIdentityKey());
+//
+////            OlatApiCall usersCall = new OlatApiCall(apiBaseUrl+"/users/"+identityKey,
+////                    Connection.Method.GET, xOlatToken);
+////            System.out.println(usersCall.getStatusCode());
+////            System.out.println(usersCall.getResponseBody());
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 }

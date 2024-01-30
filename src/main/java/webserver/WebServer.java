@@ -3,6 +3,7 @@ package webserver;
 import data.Lecture;
 import data.LectureFactory;
 import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapperBuilder;
 import helper.DayComparator;
 import spark.ModelAndView;
 import spark.Spark;
@@ -20,7 +21,10 @@ public class WebServer {
 
     public WebServer(int pPort){
         Spark.port(pPort);
+        DefaultObjectWrapperBuilder dfob = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_26);
+        dfob.setIterableSupport(true);
         this.config.setClassLoaderForTemplateLoading(ClassLoader.getSystemClassLoader(), "templates");
+        this.config.setObjectWrapper(dfob.build());
     }
 
     public void runRoutes() {
