@@ -2,10 +2,9 @@ package helper;
 
 import data.Lecture;
 
-import java.util.Comparator;
+import java.util.*;
 
-public class ModuleComparator implements Comparator<Lecture> {
-
+public class ModuleComparator implements Comparator<String> {
 
     /**
      * Compares its two arguments for order.  Returns a negative integer,
@@ -42,8 +41,17 @@ public class ModuleComparator implements Comparator<Lecture> {
      * imposes orderings that are inconsistent with equals."
      */
     @Override
-    public int compare(Lecture o1, Lecture o2) {
-        return 0;
+    public int compare(String o1, String o2) {
+        if ((o1.startsWith("BM") && o2.startsWith("AM")) || (o1.startsWith("BM") && o2.startsWith("VM"))
+        || (o1.startsWith("BM") && o2.startsWith("GM")) || (o1.startsWith("AM") && o2.startsWith("VM"))
+        || (o1.startsWith("AM") && o2.startsWith("GM")) || (o1.startsWith("VM") && o2.startsWith("GM")))
+            return -1;
+        else if (o1.substring(0, 2).equals(o2.substring(0, 2))) {
+            if (Integer.parseInt(String.valueOf(o1.charAt(2))) < Integer.parseInt(String.valueOf(o2.charAt(2))))
+                return -1;
+            else return 1;
+        }
+        else return 1;
     }
 
     /**
@@ -55,7 +63,7 @@ public class ModuleComparator implements Comparator<Lecture> {
      * @since 1.8
      */
     @Override
-    public Comparator<Lecture> reversed() {
+    public Comparator<String> reversed() {
         return Comparator.super.reversed();
     }
 }

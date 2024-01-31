@@ -1,5 +1,7 @@
 package data;
 
+import helper.ModuleComparator;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -160,10 +162,17 @@ public class Lecture_Text_Impl implements Lecture{
         if (this.modulesSet.isEmpty()){
             Matcher moduleMatcher = this.modulesPattern.matcher(this.textRaw);
             while(moduleMatcher.find()){
-                this.addModule(moduleMatcher.group(0));
+                this.addModule(moduleMatcher.group(0).replace(" ",""));
             }
         }
         return this.modulesSet;
+    }
+
+    public List<String> getModulesList() {
+        List<String> modulesList = new ArrayList<>(0);
+        modulesList.addAll(this.getModulesSet());
+        modulesList.sort(new ModuleComparator());
+        return modulesList;
     }
 
     @Override

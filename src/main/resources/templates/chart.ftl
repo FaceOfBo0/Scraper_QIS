@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <style>
         body { padding: 20px; }
         table {
@@ -47,11 +47,12 @@
         <th>Lehrende</th>
         <th>Raum</th>
         <th>Module</th>
+        <th>VRMB</th>
 
 
     </tr>
     <#list lecturesList as lecture>
-        <#assign modules = lecture.getModulesSet()>
+        <#assign modules = lecture.getModulesList()>
         <tr>
             <td>${lecture.getDay()}</td>
             <td>${lecture.getTime()}</td>
@@ -59,8 +60,9 @@
             <td>${lecture.getLecturers()}</td>
             <td>${lecture.getRoom()}</td>
             <td><#list modules as module>
-                ${module},
+                ${module}
             </#list></td>
+            <td>${lecture.getFlags()}</td>
         </tr>
     </#list>
 </table>
