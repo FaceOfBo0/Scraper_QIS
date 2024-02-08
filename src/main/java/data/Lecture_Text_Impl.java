@@ -43,7 +43,7 @@ public class Lecture_Text_Impl implements Lecture{
         this.lecturers = "";
         this.commentary = "";
         this.flags = new StringBuilder();
-        this.commentaryPattern = Pattern.compile("Inhalt\\sKommentar(.*?)\\sLeistungsnachweis");
+        this.commentaryPattern = Pattern.compile("Inhalt\\sKommentar(.*?)\\s(Leistungsnachweis|Einsortiert in)");
         this.link = pLectureURL;
         this.textRaw = pLectureText;
     }
