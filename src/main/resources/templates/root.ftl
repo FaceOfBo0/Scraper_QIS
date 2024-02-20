@@ -30,7 +30,7 @@
 <body style="background-color: #2B2A33; color: whitesmoke">
     <h1>LSF Wochenplan Editor</h1>
     <hr width="410px">
-    <form action="/chart" method="post">
+    <form action="/chart" method="get">
     <div class="input-group mb-3" id="urlForm">
         <div class="input-group-prepend">
             <span class="input-group-text spanClass">LSF-Link</span>
@@ -47,14 +47,7 @@
         </div>
     </div>
     </form>
-    <#--<script>
-        const loadBtn = document.getElementById("loadBtn");
-        const urlVal = document.getElementById("urlInp").value.replaceAll("&","<amp>");
-        const semesterVal = document.getElementById("semesterInp").value;
-        loadBtn.addEventListener("click", () => {
-            window.location.href = "/?load=1&url=" + urlVal + "&semester="+ semesterVal;
-        });
-    </script>-->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
             integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
             crossorigin="anonymous"></script>

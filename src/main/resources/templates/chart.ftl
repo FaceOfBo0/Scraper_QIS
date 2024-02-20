@@ -36,9 +36,12 @@
 </head>
 
 <body style="background-color: #2B2A33; color: whitesmoke">
-<h1>LSF Wochenplan Editor</h1>
-<hr width="410px">
-
+<h1>LSF Wochenplan ${semester}</h1>
+<hr width="450px">
+<br>
+<button class="btn btn-primary" style="color: whitesmoke" onclick="window.location.href='/download'">Download ODS File</button>
+<br>
+<br>
 <table>
     <tr>
         <th>Tag</th>

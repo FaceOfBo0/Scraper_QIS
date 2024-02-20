@@ -6,9 +6,13 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
 import helper.DayComparator;
 import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 import spark.Spark;
 import spark.template.freemarker.FreeMarkerEngine;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class WebServer {
@@ -31,10 +35,9 @@ public class WebServer {
         Spark.get("/", (req, res) -> new ModelAndView(null, "root.ftl"),
                 new FreeMarkerEngine(this.config));
 
-        Spark.post("/chart", (req, res) -> {
+        Spark.get("/chart", (req, res) -> {
             String tempUrl = req.queryParams("url");
             String tempSemester = req.queryParams("semester");
-
             if (!Objects.equals(tempUrl, this.url) || !Objects.equals(tempSemester, this.semester)) {
                 if (!Objects.equals(semester, ""))
                     this.factory = new LectureFactory(tempUrl, tempSemester);
@@ -51,33 +54,17 @@ public class WebServer {
 
             this.url = req.queryParams("url");
             this.semester = req.queryParams("semester");
+            String semesterText = this.semester.endsWith("1") ? "SoSe" : "WiSe";
+            this.attributesChart.put("semester", semesterText + " " + this.semester.substring(2,4));
             return new ModelAndView(this.attributesChart, "chart.ftl");
         }, new FreeMarkerEngine(this.config));
+
+        Spark.get("/download", (Request req, Response res) -> {
+            res.type("application/octet-stream");
+            res.header("Content-Disposition", "attachment; filename=Wocheplan.ods");
+            this.factory.createFileFromLectures(res.raw().getOutputStream(), true);
+            //Files.copy(Paths.get("myfile.ods"), res.raw().getOutputStream());
+            return res.raw();
+        });
     }
-//        Spark.get("/","text/html", (req, res) -> {
-//            String load = req.queryParams().contains("load") ? req.queryParams("load") : "";
-//            String url = req.queryParams().contains("url") ? req.queryParams("url").replace("<amp>","&") : "";
-//            String semester = req.queryParams().contains("semester") ? req.queryParams("semester") : "";
-//            Map<String, Object> attributes = new HashMap<>(0);
-//
-//            if (Objects.equals(load, "1")) {
-//                if (!Objects.equals(url, "")) {
-//                    if (this.lecturesList.isEmpty()) {
-//                        if (!Objects.equals(semester, ""))
-//                            this.factory = new LectureFactory(url, semester);
-//                        else this.factory = new LectureFactory(url);
-//                        this.lecturesList = this.factory.getLectures();
-//                        this.lecturesList.sort(new DayComparator());
-//                        attributes.put("lecturesList", this.lecturesList);
-//                        System.out.println("Lectures successfully loaded!");
-//                    }
-//                    else System.out.println("Lectures already loaded!");
-//                }
-//                else throw new InvalidParameterException("'url' or 'semester' not found!");
-//            }
-//            if (!this.lecturesList.isEmpty())
-//                attributes.put("loaded", "1");
-//            else attributes.put("loaded", "0");
-//            return new ModelAndView(attributes, "root.ftl");
-//        }, new FreeMarkerEngine(this.config));
 }

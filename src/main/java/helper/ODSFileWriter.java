@@ -4,13 +4,14 @@ import com.github.jferard.fastods.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Class handling saving and manipulating sheet files in odf-format.
  */
 public class ODSFileWriter {
 OdsDocument document;
-AnonymousOdsFileWriter fileWriter;
+AnonymousOdsFileWriter odsWriter;
 
     /**
      * Constructor with default initialization.
@@ -18,8 +19,8 @@ AnonymousOdsFileWriter fileWriter;
     public ODSFileWriter(){
         OdsFactory factory;
         factory = OdsFactory.create();
-        this.fileWriter = factory.createWriter();
-        this.document = this.fileWriter.document();
+        this.odsWriter = factory.createWriter();
+        this.document = this.odsWriter.document();
     }
 
     /**
@@ -36,6 +37,14 @@ AnonymousOdsFileWriter fileWriter;
         }
     }
 
+    public void saveDocAsStream(OutputStream outStream) {
+        try {
+            this.odsWriter.save(outStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Save FileWriter-Object as ODS-File in resources folder
      * @param fileName name for ods-file
@@ -43,7 +52,7 @@ AnonymousOdsFileWriter fileWriter;
     public void saveDocAsODS(String fileName){
         // "src/main/resources/"+
         try {
-            this.fileWriter.saveAs(new File (fileName));
+            this.odsWriter.saveAs(new File (fileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,0 +1,38 @@
+
+root.ftl
+    <#--<script>
+            const loadBtn = document.getElementById("loadBtn");
+            const urlVal = document.getElementById("urlInp").value.replaceAll("&","<amp>");
+            const semesterVal = document.getElementById("semesterInp").value;
+            loadBtn.addEventListener("click", () => {
+                window.location.href = "/?load=1&url=" + urlVal + "&semester="+ semesterVal;
+            });
+        </script>-->
+
+WebServer
+    //        Spark.get("/","text/html", (req, res) -> {
+    //            String load = req.queryParams().contains("load") ? req.queryParams("load") : "";
+    //            String url = req.queryParams().contains("url") ? req.queryParams("url").replace("<amp>","&") : "";
+    //            String semester = req.queryParams().contains("semester") ? req.queryParams("semester") : "";
+    //            Map<String, Object> attributes = new HashMap<>(0);
+    //
+    //            if (Objects.equals(load, "1")) {
+    //                if (!Objects.equals(url, "")) {
+    //                    if (this.lecturesList.isEmpty()) {
+    //                        if (!Objects.equals(semester, ""))
+    //                            this.factory = new LectureFactory(url, semester);
+    //                        else this.factory = new LectureFactory(url);
+    //                        this.lecturesList = this.factory.getLectures();
+    //                        this.lecturesList.sort(new DayComparator());
+    //                        attributes.put("lecturesList", this.lecturesList);
+    //                        System.out.println("Lectures successfully loaded!");
+    //                    }
+    //                    else System.out.println("Lectures already loaded!");
+    //                }
+    //                else throw new InvalidParameterException("'url' or 'semester' not found!");
+    //            }
+    //            if (!this.lecturesList.isEmpty())
+    //                attributes.put("loaded", "1");
+    //            else attributes.put("loaded", "0");
+    //            return new ModelAndView(attributes, "root.ftl");
+    //        }, new FreeMarkerEngine(this.config));

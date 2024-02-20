@@ -9,6 +9,7 @@ import helper.DayComparator;
 import helper.ODSFileWriter;
 import helper.QisParser;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
 
 public class LectureFactory {
@@ -79,7 +80,7 @@ public class LectureFactory {
         return this.lectures;
     }
 
-    public void createFileFromLectures(String pFileName, boolean pLinkFlag) {
+    public void createFileFromLectures(OutputStream outStream, boolean pLinkFlag) {
         try {
             this.createTitleRow();
 
@@ -125,35 +126,36 @@ public class LectureFactory {
                 row.getOrCreateCell(3).setStyle(wrappedCellStyle);
 
                 row.getOrCreateCell(4).setStringValue(this.lectures.get(i).getRoom());
-                if (this.lectures.get(i).getModulesSet().contains("BM 1"))
+                if (this.lectures.get(i).getModulesSet().contains("BM1"))
                     row.getOrCreateCell(5).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("BM 2"))
+                if (this.lectures.get(i).getModulesSet().contains("BM2"))
                     row.getOrCreateCell(6).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("BM 3"))
+                if (this.lectures.get(i).getModulesSet().contains("BM3"))
                     row.getOrCreateCell(7).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("AM 1"))
+                if (this.lectures.get(i).getModulesSet().contains("AM1"))
                     row.getOrCreateCell(8).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("AM 2"))
+                if (this.lectures.get(i).getModulesSet().contains("AM2"))
                     row.getOrCreateCell(9).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("AM 3"))
+                if (this.lectures.get(i).getModulesSet().contains("AM3"))
                     row.getOrCreateCell(10).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("VM 1"))
+                if (this.lectures.get(i).getModulesSet().contains("VM1"))
                     row.getOrCreateCell(11).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("VM 2"))
+                if (this.lectures.get(i).getModulesSet().contains("VM2"))
                     row.getOrCreateCell(12).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("VM 3"))
+                if (this.lectures.get(i).getModulesSet().contains("VM3"))
                     row.getOrCreateCell(13).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("GM 1"))
+                if (this.lectures.get(i).getModulesSet().contains("GM1"))
                     row.getOrCreateCell(14).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("GM 2"))
+                if (this.lectures.get(i).getModulesSet().contains("GM2"))
                     row.getOrCreateCell(15).setStringValue("x");
-                if (this.lectures.get(i).getModulesSet().contains("GM 3"))
+                if (this.lectures.get(i).getModulesSet().contains("GM3"))
                     row.getOrCreateCell(16).setStringValue("x");
 
                 // write Flags "VRMB" to Row
                 row.getOrCreateCell(19).setStringValue(this.lectures.get(i).getFlags());
             }
-            this.fileWriter.saveDocAsODS(pFileName);
+            //this.fileWriter.saveDocAsODS(pFileName);
+            this.fileWriter.saveDocAsStream(outStream);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
