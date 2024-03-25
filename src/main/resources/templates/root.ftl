@@ -41,7 +41,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text spanClass">Semester</span>
         </div>
-        <input placeholder="2023.2" id="semesterInp" name="semester" class="form-control">
+        <input placeholder="2023.2" value="2024.1" id="semesterInp" name="semester" class="form-control">
         <div class="buttonForm input-group-append">
             <button id="loadBtn" class="btn btn-primary" type="submit" style="color: whitesmoke">Plan laden</button>
         </div>

@@ -11,8 +11,6 @@ import spark.Response;
 import spark.Spark;
 import spark.template.freemarker.FreeMarkerEngine;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class WebServer {
@@ -21,6 +19,7 @@ public class WebServer {
     private final Configuration config = new Configuration(Configuration.VERSION_2_3_26);
     private String url;
     private String semester;
+    private String semesterText;
     private Map<String, Object> attributesChart = new HashMap<>(0);
 
     public WebServer(int pPort){
@@ -32,6 +31,7 @@ public class WebServer {
     }
 
     public void runRoutes() {
+
         Spark.get("/", (req, res) -> new ModelAndView(null, "root.ftl"),
                 new FreeMarkerEngine(this.config));
 
@@ -54,14 +54,15 @@ public class WebServer {
 
             this.url = req.queryParams("url");
             this.semester = req.queryParams("semester");
-            String semesterText = this.semester.endsWith("1") ? "SoSe" : "WiSe";
-            this.attributesChart.put("semester", semesterText + " " + this.semester.substring(2,4));
+            semesterText = this.semester.endsWith("1") ? "SoSe" : "WiSe";
+            semesterText = semesterText + " " + this.semester.substring(2,4);
+            this.attributesChart.put("semester", semesterText);
             return new ModelAndView(this.attributesChart, "chart.ftl");
         }, new FreeMarkerEngine(this.config));
 
         Spark.get("/download", (Request req, Response res) -> {
             res.type("application/octet-stream");
-            res.header("Content-Disposition", "attachment; filename=Wocheplan.ods");
+            res.header("Content-Disposition", "attachment; filename=Wocheplan "+ this.semesterText +".ods");
             this.factory.createFileFromLectures(res.raw().getOutputStream(), true);
             //Files.copy(Paths.get("myfile.ods"), res.raw().getOutputStream());
             return res.raw();
